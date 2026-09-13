@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { PageIntro } from "@/components/page-elements";
@@ -34,5 +34,5 @@ function ContactPage() {
   </>;
 }
 
-function Field({label, children}:{label:string;children:React.ReactNode}) { return <label className="form-field"><span>{label}</span>{children}</label>; }
+function Field({label, children}:{label:string;children:ReactNode}) { return <label className="form-field"><span>{label}</span>{children}</label>; }
 function SelectField({label,name,options}:{label:string;name:string;options:string[]}) { return <label className="form-field"><span>{label}</span><select name={name} required defaultValue=""><option value="" disabled>Select an option</option>{options.map(option=><option key={option}>{option}</option>)}</select></label>; }

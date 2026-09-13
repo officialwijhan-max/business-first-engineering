@@ -97,7 +97,7 @@ export function SiteFooter() {
         </div>
         <div className="flex flex-col gap-2 pt-7 text-xs text-primary-foreground/45 sm:flex-row sm:justify-between">
           <p>© 2026 Wijhan. All rights reserved.</p>
-          <p>Cairo · Serving businesses globally</p>
+          <p>Serving businesses globally</p>
         </div>
       </div>
     </footer>
