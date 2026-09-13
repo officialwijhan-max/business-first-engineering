@@ -114,6 +114,7 @@
 @media (min-width: 768px) { .site-container { width: min(100% - 5rem, 82rem); } }
 @media (min-width: 1024px) {
   .site-container { width: min(100% - 6rem, 82rem); }
+  .icon-control { display: none; }
   .service-detail { grid-template-columns: .3fr .8fr 1fr; align-items: start; padding-block: 4rem; }
   .process-step { grid-template-columns: 1fr .65fr; gap: 5rem; padding: 1rem 0 7rem 6rem; }
 }
