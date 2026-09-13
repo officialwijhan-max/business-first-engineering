@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import wijhanLogoAsset from "@/assets/wijhan-logo.png.asset.json";
 
 const nav = [
   ["/about", "About"],
@@ -12,12 +13,12 @@ const nav = [
 
 export function Wordmark({ light = false }: { light?: boolean }) {
   return (
-    <Link to="/" className={cn("wordmark", light && "text-primary-foreground")} aria-label="Wijhan home">
-      <span className="font-display text-2xl font-semibold">Wijhan</span>
-      <span className="wordmark-divider" aria-hidden="true" />
-      <span className="font-arabic text-xl" lang="ar" dir="rtl">
-        وِجهان
-      </span>
+    <Link to="/" className="wordmark" aria-label="Wijhan home">
+      <img
+        src={wijhanLogoAsset.url}
+        alt="Wijhan"
+        className={cn("wordmark-logo", light && "wordmark-logo--light")}
+      />
     </Link>
   );
 }

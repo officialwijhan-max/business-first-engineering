@@ -5,4 +5,4 @@
 - [x] Add truthful placeholders for unavailable case studies and contact details
 - [x] Add unique metadata for every content page
 - [x] Validate routes, interactions, and desktop/mobile presentation
-- [ ] Replace temporary text wordmark when the official logo asset is supplied (blocked: no logo file uploaded)
+- [x] Replace the temporary text wordmark with the official Wijhan logo asset
