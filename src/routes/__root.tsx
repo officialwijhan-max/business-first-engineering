@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useLocation,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -117,13 +118,22 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useLocation({ select: (location) => location.pathname });
+  const arabic = pathname === "/ar" || pathname.startsWith("/ar/");
+
+  useEffect(() => {
+    document.documentElement.lang = arabic ? "ar" : "en";
+    document.documentElement.dir = arabic ? "rtl" : "ltr";
+  }, [arabic]);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <a className="skip-link" href="#main-content">Skip to content</a>
-      <SiteHeader />
-      <main id="main-content"><Outlet /></main>
-      <SiteFooter />
+      <div dir={arabic ? "rtl" : "ltr"} lang={arabic ? "ar" : "en"}>
+        <a className="skip-link" href="#main-content">{arabic ? "انتقل إلى المحتوى" : "Skip to content"}</a>
+        <SiteHeader />
+        <main id="main-content"><Outlet /></main>
+        <SiteFooter />
+      </div>
     </QueryClientProvider>
   );
 }

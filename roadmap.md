@@ -9,6 +9,6 @@
 ## Arabic edition
 
 - [ ] Add complete Arabic translations for all six pages
-- [ ] Add Arabic navigation and language switching
-- [ ] Add RTL styling, Arabic metadata, and Arabic form states
+- [x] Add Arabic navigation and language switching
+- [x] Add RTL styling, Arabic metadata, and Arabic form states
 - [ ] Validate Arabic desktop and mobile experiences
