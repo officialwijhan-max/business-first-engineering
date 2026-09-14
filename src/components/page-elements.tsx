@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 
 export function Eyebrow({ children, inverse = false }: { children: ReactNode; inverse?: boolean }) {
@@ -82,17 +82,19 @@ export function DirectionMark({ className }: { className?: string }) {
 }
 
 export function ProjectCta() {
+  const pathname = useLocation({ select: (location) => location.pathname });
+  const arabic = pathname === "/ar" || pathname.startsWith("/ar/");
   return (
     <section className="bg-accent text-accent-foreground">
       <div className="site-container grid gap-10 py-20 md:py-28 lg:grid-cols-[1fr_auto] lg:items-end">
         <div className="reveal max-w-3xl">
-          <Eyebrow inverse>Have a challenge in mind?</Eyebrow>
+          <Eyebrow inverse>{arabic ? "هل لديك تحدٍ تريد حله؟" : "Have a challenge in mind?"}</Eyebrow>
           <h2 className="mt-5 font-display text-4xl leading-tight sm:text-6xl">
-            Let’s understand the problem first.
+            {arabic ? "لنبدأ بفهم المشكلة." : "Let’s understand the problem first."}
           </h2>
         </div>
-        <ArrowLink to="/contact" inverse>
-          Start a Project
+        <ArrowLink to={arabic ? "/ar/contact" : "/contact"} inverse>
+          {arabic ? "ابدأ مشروعاً" : "Start a Project"}
         </ArrowLink>
       </div>
     </section>
