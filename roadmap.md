@@ -8,7 +8,7 @@
 - [x] Replace the temporary text wordmark with the official Wijhan logo asset
 ## Arabic edition
 
-- [ ] Add complete Arabic translations for all six pages
+- [x] Add complete Arabic translations for all six pages
 - [x] Add Arabic navigation and language switching
 - [x] Add RTL styling, Arabic metadata, and Arabic form states
-- [ ] Validate Arabic desktop and mobile experiences
+- [x] Validate Arabic desktop and mobile experiences

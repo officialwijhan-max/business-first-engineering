@@ -11,10 +11,17 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as ArRouteImport } from './routes/ar'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ProcessRouteImport } from './routes/process'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as WorkRouteImport } from './routes/work'
+import { Route as ArIndexRouteImport } from './routes/ar.index'
+import { Route as ArAboutRouteImport } from './routes/ar.about'
+import { Route as ArContactRouteImport } from './routes/ar.contact'
+import { Route as ArProcessRouteImport } from './routes/ar.process'
+import { Route as ArServicesRouteImport } from './routes/ar.services'
+import { Route as ArWorkRouteImport } from './routes/ar.work'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -24,6 +31,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArRoute = ArRouteImport.update({
+  id: '/ar',
+  path: '/ar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -46,14 +58,51 @@ const WorkRoute = WorkRouteImport.update({
   path: '/work',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArIndexRoute = ArIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ArRoute,
+} as any)
+const ArAboutRoute = ArAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => ArRoute,
+} as any)
+const ArContactRoute = ArContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => ArRoute,
+} as any)
+const ArProcessRoute = ArProcessRouteImport.update({
+  id: '/process',
+  path: '/process',
+  getParentRoute: () => ArRoute,
+} as any)
+const ArServicesRoute = ArServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => ArRoute,
+} as any)
+const ArWorkRoute = ArWorkRouteImport.update({
+  id: '/work',
+  path: '/work',
+  getParentRoute: () => ArRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/ar': typeof ArRouteWithChildren
   '/contact': typeof ContactRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
   '/work': typeof WorkRoute
+  '/ar/about': typeof ArAboutRoute
+  '/ar/contact': typeof ArContactRoute
+  '/ar/process': typeof ArProcessRoute
+  '/ar/services': typeof ArServicesRoute
+  '/ar/work': typeof ArWorkRoute
+  '/ar/': typeof ArIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,34 +111,80 @@ export interface FileRoutesByTo {
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
   '/work': typeof WorkRoute
+  '/ar/about': typeof ArAboutRoute
+  '/ar/contact': typeof ArContactRoute
+  '/ar/process': typeof ArProcessRoute
+  '/ar/services': typeof ArServicesRoute
+  '/ar/work': typeof ArWorkRoute
+  '/ar': typeof ArIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/ar': typeof ArRouteWithChildren
   '/contact': typeof ContactRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
   '/work': typeof WorkRoute
+  '/ar/about': typeof ArAboutRoute
+  '/ar/contact': typeof ArContactRoute
+  '/ar/process': typeof ArProcessRoute
+  '/ar/services': typeof ArServicesRoute
+  '/ar/work': typeof ArWorkRoute
+  '/ar/': typeof ArIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/contact' | '/process' | '/services' | '/work'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/ar'
+    | '/contact'
+    | '/process'
+    | '/services'
+    | '/work'
+    | '/ar/about'
+    | '/ar/contact'
+    | '/ar/process'
+    | '/ar/services'
+    | '/ar/work'
+    | '/ar/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/process' | '/services' | '/work'
-  id:
-    | '__root__'
+  to:
     | '/'
     | '/about'
     | '/contact'
     | '/process'
     | '/services'
     | '/work'
+    | '/ar/about'
+    | '/ar/contact'
+    | '/ar/process'
+    | '/ar/services'
+    | '/ar/work'
+    | '/ar'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/ar'
+    | '/contact'
+    | '/process'
+    | '/services'
+    | '/work'
+    | '/ar/about'
+    | '/ar/contact'
+    | '/ar/process'
+    | '/ar/services'
+    | '/ar/work'
+    | '/ar/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ArRoute: typeof ArRouteWithChildren
   ContactRoute: typeof ContactRoute
   ProcessRoute: typeof ProcessRoute
   ServicesRoute: typeof ServicesRoute
@@ -110,6 +205,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ar': {
+      id: '/ar'
+      path: '/ar'
+      fullPath: '/ar'
+      preLoaderRoute: typeof ArRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -140,12 +242,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ar/': {
+      id: '/ar/'
+      path: '/'
+      fullPath: '/ar/'
+      preLoaderRoute: typeof ArIndexRouteImport
+      parentRoute: typeof ArRoute
+    }
+    '/ar/about': {
+      id: '/ar/about'
+      path: '/about'
+      fullPath: '/ar/about'
+      preLoaderRoute: typeof ArAboutRouteImport
+      parentRoute: typeof ArRoute
+    }
+    '/ar/contact': {
+      id: '/ar/contact'
+      path: '/contact'
+      fullPath: '/ar/contact'
+      preLoaderRoute: typeof ArContactRouteImport
+      parentRoute: typeof ArRoute
+    }
+    '/ar/process': {
+      id: '/ar/process'
+      path: '/process'
+      fullPath: '/ar/process'
+      preLoaderRoute: typeof ArProcessRouteImport
+      parentRoute: typeof ArRoute
+    }
+    '/ar/services': {
+      id: '/ar/services'
+      path: '/services'
+      fullPath: '/ar/services'
+      preLoaderRoute: typeof ArServicesRouteImport
+      parentRoute: typeof ArRoute
+    }
+    '/ar/work': {
+      id: '/ar/work'
+      path: '/work'
+      fullPath: '/ar/work'
+      preLoaderRoute: typeof ArWorkRouteImport
+      parentRoute: typeof ArRoute
+    }
   }
 }
+
+interface ArRouteChildren {
+  ArAboutRoute: typeof ArAboutRoute
+  ArContactRoute: typeof ArContactRoute
+  ArProcessRoute: typeof ArProcessRoute
+  ArServicesRoute: typeof ArServicesRoute
+  ArWorkRoute: typeof ArWorkRoute
+  ArIndexRoute: typeof ArIndexRoute
+}
+
+const ArRouteChildren: ArRouteChildren = {
+  ArAboutRoute: ArAboutRoute,
+  ArContactRoute: ArContactRoute,
+  ArProcessRoute: ArProcessRoute,
+  ArServicesRoute: ArServicesRoute,
+  ArWorkRoute: ArWorkRoute,
+  ArIndexRoute: ArIndexRoute,
+}
+
+const ArRouteWithChildren = ArRoute._addFileChildren(ArRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ArRoute: ArRouteWithChildren,
   ContactRoute: ContactRoute,
   ProcessRoute: ProcessRoute,
   ServicesRoute: ServicesRoute,
