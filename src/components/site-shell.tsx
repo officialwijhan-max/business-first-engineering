@@ -106,6 +106,11 @@ export function SiteFooter() {
             <p className="mt-2 max-w-md font-display text-2xl text-primary-foreground">
               {arabic ? "«نفهم العمل قبل أن نكتب الكود.»" : "“We understand the business before writing the code.”"}
             </p>
+            <div className="mt-7 space-y-1 text-sm text-primary-foreground/65">
+              <a href="mailto:hello@wijhan.com" className="block transition-colors hover:text-primary-foreground">hello@wijhan.com</a>
+              <a href="tel:+201000580504" dir="ltr" className="block transition-colors hover:text-primary-foreground">+20 100 058 0504</a>
+              <p>{arabic ? "بيفرلي هيلز، الشيخ زايد، الجيزة، مصر" : "Beverly Hills, Sheikh Zayed, Giza, Egypt"}</p>
+            </div>
           </div>
           <nav className="grid grid-cols-2 gap-x-8 gap-y-4 self-end text-sm" aria-label="Footer navigation">
             {[...activeNav, [arabic ? "/ar/contact" : "/contact", arabic ? "تواصل معنا" : "Contact"] as const].map(([to, label]) => (
