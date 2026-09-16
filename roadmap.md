@@ -12,3 +12,9 @@
 - [x] Add Arabic navigation and language switching
 - [x] Add RTL styling, Arabic metadata, and Arabic form states
 - [x] Validate Arabic desktop and mobile experiences
+
+## Arabic search optimization
+
+- [x] Arabic keyword-rich titles, descriptions and keywords on all six /ar pages
+- [x] Language alternates (en, ar, ar-SA, ar-AE, ar-EG, x-default) on every page
+- [x] Arabic structured data: organization with regions served, services, breadcrumbs
