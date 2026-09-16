@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Check } from "lucide-react";
 import { PageIntro, ProjectCta, SectionHeading } from "@/components/page-elements";
 import { services } from "@/lib/site-data";
+import { englishLocaleMeta, languageAlternates } from "@/lib/seo";
 
 export const Route = createFileRoute("/services")({
   head: () => ({ meta: [
@@ -10,7 +11,8 @@ export const Route = createFileRoute("/services")({
     { property: "og:title", content: "Product Engineering Services | Wijhan" },
     { property: "og:description", content: "From business understanding to scalable digital products." },
     { property: "og:type", content: "website" }, { property: "og:url", content: "/services" }, { name: "twitter:card", content: "summary_large_image" },
-  ], links: [{ rel: "canonical", href: "/services" }] }), component: ServicesPage,
+      ...englishLocaleMeta,
+  ], links: [{ rel: "canonical", href: "/services" }, ...languageAlternates("/services", "/ar/services")] }), component: ServicesPage,
 });
 
 function ServicesPage() { return <>
