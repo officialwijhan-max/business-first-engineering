@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { PageIntro, ProjectCta, SectionHeading } from "@/components/page-elements";
 import { projectCategories } from "@/lib/site-data";
+import { englishLocaleMeta, languageAlternates } from "@/lib/seo";
 
 export const Route = createFileRoute("/work")({
   head: () => ({ meta: [
@@ -10,7 +11,8 @@ export const Route = createFileRoute("/work")({
     { property: "og:title", content: "Selected Work & Case Studies | Wijhan" },
     { property: "og:description", content: "Selected product engineering work from Wijhan." },
     { property: "og:type", content: "website" }, { property: "og:url", content: "/work" }, { name: "twitter:card", content: "summary_large_image" },
-  ], links: [{ rel: "canonical", href: "/work" }] }), component: WorkPage,
+      ...englishLocaleMeta,
+  ], links: [{ rel: "canonical", href: "/work" }, ...languageAlternates("/work", "/ar/work")] }), component: WorkPage,
 });
 
 function WorkPage() { return <>

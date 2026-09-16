@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageIntro, ProjectCta, SectionHeading } from "@/components/page-elements";
 import { processSteps } from "@/lib/site-data";
+import { englishLocaleMeta, languageAlternates } from "@/lib/seo";
 
 export const Route = createFileRoute("/process")({
   head: () => ({ meta: [
@@ -9,7 +10,8 @@ export const Route = createFileRoute("/process")({
     { property: "og:title", content: "Our Product Engineering Process | Wijhan" },
     { property: "og:description", content: "Understand first. Build second. Improve continuously." },
     { property: "og:type", content: "website" }, { property: "og:url", content: "/process" }, { name: "twitter:card", content: "summary_large_image" },
-  ], links: [{ rel: "canonical", href: "/process" }] }), component: ProcessPage,
+      ...englishLocaleMeta,
+  ], links: [{ rel: "canonical", href: "/process" }, ...languageAlternates("/process", "/ar/process")] }), component: ProcessPage,
 });
 
 function ProcessPage() { return <>

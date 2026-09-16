@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { PageIntro, ProjectCta, SectionHeading } from "@/components/page-elements";
 import { philosophyQuestions, values } from "@/lib/site-data";
+import { englishLocaleMeta, languageAlternates } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -13,8 +14,9 @@ export const Route = createFileRoute("/about")({
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/about" },
       { name: "twitter:card", content: "summary_large_image" },
+      ...englishLocaleMeta,
     ],
-    links: [{ rel: "canonical", href: "/about" }],
+    links: [{ rel: "canonical", href: "/about" }, ...languageAlternates("/about", "/ar/about")],
   }),
   component: AboutPage,
 });

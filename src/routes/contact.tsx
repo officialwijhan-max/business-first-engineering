@@ -5,6 +5,7 @@ import { PageIntro } from "@/components/page-elements";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { englishLocaleMeta, languageAlternates } from "@/lib/seo";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({ meta: [
@@ -13,7 +14,8 @@ export const Route = createFileRoute("/contact")({
     { property: "og:title", content: "Start a Project | Contact Wijhan" },
     { property: "og:description", content: "Let’s understand the problem first." },
     { property: "og:type", content: "website" }, { property: "og:url", content: "/contact" }, { name: "twitter:card", content: "summary_large_image" },
-  ], links: [{ rel: "canonical", href: "/contact" }] }), component: ContactPage,
+      ...englishLocaleMeta,
+  ], links: [{ rel: "canonical", href: "/contact" }, ...languageAlternates("/contact", "/ar/contact")] }), component: ContactPage,
 });
 
 function ContactPage() {

@@ -3,6 +3,7 @@ import { ArrowDown, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ArrowLink, DirectionMark, Eyebrow, ProjectCta, SectionHeading } from "@/components/page-elements";
 import { approachQuestions, differentiators, industries, processSteps, services } from "@/lib/site-data";
+import { englishLocaleMeta, languageAlternates } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -15,8 +16,9 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
+      ...englishLocaleMeta,
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: "/" }, ...languageAlternates("/", "/ar")],
   }),
   component: HomePage,
 });
