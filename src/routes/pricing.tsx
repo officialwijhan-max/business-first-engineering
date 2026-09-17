@@ -1,6 +1,10 @@
+import { useState, type FormEvent, type ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Check } from "lucide-react";
+import { ArrowRight, Check, CheckCircle2 } from "lucide-react";
 import { PageIntro, ProjectCta, SectionHeading } from "@/components/page-elements";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { englishLocaleMeta, languageAlternates } from "@/lib/seo";
 
 export const Route = createFileRoute("/pricing")({
@@ -10,10 +14,10 @@ export const Route = createFileRoute("/pricing")({
       {
         name: "description",
         content:
-          "How Wijhan charges for product discovery, design and engineering: fixed-scope discovery sprints, scoped product builds and monthly partnerships. Rates are quoted per scope.",
+          "Wijhan pricing: Discovery Sprint from $1,000, Product Build from $1,500 and Embedded Partnership from $100 per month. Request a quote for your scope.",
       },
       { property: "og:title", content: "Pricing & Engagement Models | Wijhan" },
-      { property: "og:description", content: "Transparent engagement models for discovery, design and engineering." },
+      { property: "og:description", content: "Transparent rates for discovery, design and engineering." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/pricing" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -29,6 +33,8 @@ const models = [
     number: "01",
     title: "Discovery Sprint",
     tag: "Fixed scope, fixed price",
+    price: "$1,000",
+    priceNote: "fixed price per sprint",
     summary:
       "A short, focused engagement that turns a business idea or problem into a validated product definition. You know the full cost before we start.",
     includes: [
@@ -44,6 +50,8 @@ const models = [
     number: "02",
     title: "Product Build",
     tag: "Scoped engagement",
+    price: "From $1,500",
+    priceNote: "per agreed scope",
     summary:
       "Design and engineering delivered against an agreed scope, timeline and price. The scope is defined together during or after discovery — never guessed.",
     includes: [
@@ -59,6 +67,8 @@ const models = [
     number: "03",
     title: "Embedded Partnership",
     tag: "Monthly engagement",
+    price: "From $100",
+    priceNote: "per month",
     summary:
       "Ongoing product, design and engineering capacity working as part of your team, billed monthly. Scale the capacity up or down as the product evolves.",
     includes: [
@@ -86,12 +96,12 @@ function PricingPage() {
         eyebrow="Pricing"
         title={
           <>
-            Clear models.
+            Clear rates.
             <br />
             <span className="text-primary-foreground/45">No hidden hours.</span>
           </>
         }
-        copy="Every product is different, so we do not publish a generic rate card. Instead, we charge through three transparent engagement models — and quote a precise figure once we understand your scope."
+        copy="Three engagement models, each with a published starting rate. The final figure is confirmed once we understand your scope — but you never have to guess where pricing begins."
       />
       <section className="section-pad">
         <div className="site-container">
@@ -109,7 +119,9 @@ function PricingPage() {
                 </div>
                 <div>
                   <h2 className="font-display text-3xl sm:text-4xl">{model.title}</h2>
-                  <p className="mt-4 max-w-md leading-7 text-muted-foreground">{model.summary}</p>
+                  <p className="mt-5 font-display text-4xl text-accent sm:text-5xl">{model.price}</p>
+                  <p className="mt-2 text-xs uppercase tracking-wide text-muted-foreground">{model.priceNote}</p>
+                  <p className="mt-5 max-w-md leading-7 text-muted-foreground">{model.summary}</p>
                   <p className="mt-6 max-w-md border-t border-border pt-5 text-sm leading-6">
                     <span className="font-semibold">Best for: </span>
                     <span className="text-muted-foreground">{model.best}</span>
@@ -126,6 +138,7 @@ function PricingPage() {
               </article>
             ))}
           </div>
+          <p className="mt-10 text-sm text-muted-foreground reveal">All rates are in US dollars and exclude any applicable taxes.</p>
         </div>
       </section>
       <section className="section-pad bg-secondary">
@@ -141,17 +154,91 @@ function PricingPage() {
           </div>
         </div>
       </section>
-      <section className="section-pad">
-        <div className="site-container grid gap-10 border-y border-border py-14 lg:grid-cols-[1fr_.8fr] lg:items-center">
-          <h2 className="font-display text-3xl leading-snug sm:text-4xl reveal">
-            Rates depend on scope, team and timeline — so the honest answer starts with a short conversation, not a price list.
-          </h2>
-          <p className="max-w-md leading-7 text-muted-foreground reveal">
-            Tell us what you are trying to build, improve or solve. We will come back with the model that fits, a clear scope, and a figure you can hold us to.
-          </p>
-        </div>
-      </section>
+      <QuoteRequest />
       <ProjectCta />
     </>
+  );
+}
+
+function QuoteRequest() {
+  const [submitted, setSubmitted] = useState(false);
+  function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSubmitted(true);
+  }
+  return (
+    <section className="section-pad" id="quote">
+      <div className="site-container grid gap-16 lg:grid-cols-[.65fr_1.35fr]">
+        <aside className="reveal">
+          <p className="eyebrow text-accent">Request a quote</p>
+          <h2 className="mt-5 font-display text-4xl">Tell us the scope, get a figure.</h2>
+          <p className="mt-6 leading-7 text-muted-foreground">
+            Share what you are trying to build, improve or solve. We will come back with the engagement model that fits and a price you can hold us to.
+          </p>
+          <div className="mt-10 border-t border-border pt-6 space-y-5">
+            <div>
+              <p className="text-xs uppercase text-muted-foreground">Email</p>
+              <a className="mt-2 block text-lg font-semibold" href="mailto:hello@wijhan.com">hello@wijhan.com</a>
+            </div>
+            <div>
+              <p className="text-xs uppercase text-muted-foreground">Phone</p>
+              <a className="mt-2 block text-lg font-semibold" href="tel:+201000580504" dir="ltr">+20 100 058 0504</a>
+            </div>
+          </div>
+        </aside>
+        {submitted ? (
+          <div className="flex min-h-96 flex-col items-start justify-center border-y border-border py-12 reveal">
+            <CheckCircle2 className="size-9 text-accent" />
+            <h2 className="mt-7 font-display text-4xl">Your quote request is ready.</h2>
+            <p className="mt-5 max-w-lg leading-7 text-muted-foreground">
+              Form delivery is not connected yet, so no message was sent. In the meantime, email the same details to hello@wijhan.com.
+            </p>
+            <Button className="mt-8" variant="outline" onClick={() => setSubmitted(false)}>
+              Edit your request
+            </Button>
+          </div>
+        ) : (
+          <form onSubmit={submit} className="grid gap-7 reveal" aria-label="Quote request form">
+            <div className="grid gap-7 sm:grid-cols-2">
+              <Field label="Name"><Input required name="name" autoComplete="name" placeholder="Your name" /></Field>
+              <Field label="Company"><Input name="company" autoComplete="organization" placeholder="Company name" /></Field>
+            </div>
+            <div className="grid gap-7 sm:grid-cols-2">
+              <Field label="Email"><Input required type="email" name="email" autoComplete="email" placeholder="you@company.com" /></Field>
+              <Field label="Phone"><Input type="tel" name="phone" autoComplete="tel" placeholder="Your phone number" /></Field>
+            </div>
+            <div className="grid gap-7 sm:grid-cols-2">
+              <SelectField label="Project Type" name="projectType" options={["New digital product", "Existing product improvement", "ERP solution", "Product discovery", "Design", "Engineering", "Other"]} />
+              <SelectField label="Budget Range" name="budget" options={["Not decided yet", "Under $10,000", "$10,000–$25,000", "$25,000–$50,000", "$50,000+"]} />
+            </div>
+            <Field label="Project Description">
+              <Textarea required name="description" className="min-h-44" placeholder="What are you trying to build, improve, or solve?" />
+            </Field>
+            <div className="flex flex-col gap-4 border-t border-border pt-7 sm:flex-row sm:items-center sm:justify-between">
+              <p className="max-w-md text-xs leading-5 text-muted-foreground">
+                This preview validates your details but does not send them until official contact delivery is connected.
+              </p>
+              <Button size="lg" type="submit">Request a Quote <ArrowRight /></Button>
+            </div>
+          </form>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function Field({ label, children }: { label: string; children: ReactNode }) {
+  return <label className="form-field"><span>{label}</span>{children}</label>;
+}
+
+function SelectField({ label, name, options }: { label: string; name: string; options: string[] }) {
+  return (
+    <label className="form-field">
+      <span>{label}</span>
+      <select name={name} required defaultValue="">
+        <option value="" disabled>Select an option</option>
+        {options.map((option) => <option key={option}>{option}</option>)}
+      </select>
+    </label>
   );
 }
