@@ -18,3 +18,10 @@
 - [x] Arabic keyword-rich titles, descriptions and keywords on all six /ar pages
 - [x] Language alternates (en, ar, ar-SA, ar-AE, ar-EG, x-default) on every page
 - [x] Arabic structured data: organization with regions served, services, breadcrumbs
+
+## Pricing page
+
+- [x] English /pricing page with three engagement models and charging principles
+- [x] Arabic /ar/pricing page with full RTL translation and metadata
+- [x] Pricing added to English and Arabic navigation
+- [ ] Validate pricing pages on desktop and mobile
