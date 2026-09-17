@@ -9,6 +9,7 @@ const nav = [
   ["/services", "Services"],
   ["/work", "Work"],
   ["/process", "Process"],
+  ["/pricing", "Pricing"],
 ] as const;
 
 const navAr = [
@@ -16,6 +17,7 @@ const navAr = [
   ["/ar/services", "خدماتنا"],
   ["/ar/work", "أعمالنا"],
   ["/ar/process", "منهجيتنا"],
+  ["/ar/pricing", "الأسعار"],
 ] as const;
 
 function localizedPath(pathname: string, arabic: boolean) {

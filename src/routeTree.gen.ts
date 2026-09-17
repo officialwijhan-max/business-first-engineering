@@ -13,12 +13,14 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ArRouteImport } from './routes/ar'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ProcessRouteImport } from './routes/process'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as WorkRouteImport } from './routes/work'
 import { Route as ArIndexRouteImport } from './routes/ar.index'
 import { Route as ArAboutRouteImport } from './routes/ar.about'
 import { Route as ArContactRouteImport } from './routes/ar.contact'
+import { Route as ArPricingRouteImport } from './routes/ar.pricing'
 import { Route as ArProcessRouteImport } from './routes/ar.process'
 import { Route as ArServicesRouteImport } from './routes/ar.services'
 import { Route as ArWorkRouteImport } from './routes/ar.work'
@@ -41,6 +43,11 @@ const ArRoute = ArRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProcessRoute = ProcessRouteImport.update({
@@ -73,6 +80,11 @@ const ArContactRoute = ArContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => ArRoute,
 } as any)
+const ArPricingRoute = ArPricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => ArRoute,
+} as any)
 const ArProcessRoute = ArProcessRouteImport.update({
   id: '/process',
   path: '/process',
@@ -94,11 +106,13 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/ar': typeof ArRouteWithChildren
   '/contact': typeof ContactRoute
+  '/pricing': typeof PricingRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
   '/work': typeof WorkRoute
   '/ar/about': typeof ArAboutRoute
   '/ar/contact': typeof ArContactRoute
+  '/ar/pricing': typeof ArPricingRoute
   '/ar/process': typeof ArProcessRoute
   '/ar/services': typeof ArServicesRoute
   '/ar/work': typeof ArWorkRoute
@@ -108,11 +122,13 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/pricing': typeof PricingRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
   '/work': typeof WorkRoute
   '/ar/about': typeof ArAboutRoute
   '/ar/contact': typeof ArContactRoute
+  '/ar/pricing': typeof ArPricingRoute
   '/ar/process': typeof ArProcessRoute
   '/ar/services': typeof ArServicesRoute
   '/ar/work': typeof ArWorkRoute
@@ -124,11 +140,13 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/ar': typeof ArRouteWithChildren
   '/contact': typeof ContactRoute
+  '/pricing': typeof PricingRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
   '/work': typeof WorkRoute
   '/ar/about': typeof ArAboutRoute
   '/ar/contact': typeof ArContactRoute
+  '/ar/pricing': typeof ArPricingRoute
   '/ar/process': typeof ArProcessRoute
   '/ar/services': typeof ArServicesRoute
   '/ar/work': typeof ArWorkRoute
@@ -141,11 +159,13 @@ export interface FileRouteTypes {
     | '/about'
     | '/ar'
     | '/contact'
+    | '/pricing'
     | '/process'
     | '/services'
     | '/work'
     | '/ar/about'
     | '/ar/contact'
+    | '/ar/pricing'
     | '/ar/process'
     | '/ar/services'
     | '/ar/work'
@@ -155,11 +175,13 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/pricing'
     | '/process'
     | '/services'
     | '/work'
     | '/ar/about'
     | '/ar/contact'
+    | '/ar/pricing'
     | '/ar/process'
     | '/ar/services'
     | '/ar/work'
@@ -170,11 +192,13 @@ export interface FileRouteTypes {
     | '/about'
     | '/ar'
     | '/contact'
+    | '/pricing'
     | '/process'
     | '/services'
     | '/work'
     | '/ar/about'
     | '/ar/contact'
+    | '/ar/pricing'
     | '/ar/process'
     | '/ar/services'
     | '/ar/work'
@@ -186,6 +210,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ArRoute: typeof ArRouteWithChildren
   ContactRoute: typeof ContactRoute
+  PricingRoute: typeof PricingRoute
   ProcessRoute: typeof ProcessRoute
   ServicesRoute: typeof ServicesRoute
   WorkRoute: typeof WorkRoute
@@ -219,6 +244,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/process': {
@@ -263,6 +295,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArContactRouteImport
       parentRoute: typeof ArRoute
     }
+    '/ar/pricing': {
+      id: '/ar/pricing'
+      path: '/pricing'
+      fullPath: '/ar/pricing'
+      preLoaderRoute: typeof ArPricingRouteImport
+      parentRoute: typeof ArRoute
+    }
     '/ar/process': {
       id: '/ar/process'
       path: '/process'
@@ -290,6 +329,7 @@ declare module '@tanstack/react-router' {
 interface ArRouteChildren {
   ArAboutRoute: typeof ArAboutRoute
   ArContactRoute: typeof ArContactRoute
+  ArPricingRoute: typeof ArPricingRoute
   ArProcessRoute: typeof ArProcessRoute
   ArServicesRoute: typeof ArServicesRoute
   ArWorkRoute: typeof ArWorkRoute
@@ -299,6 +339,7 @@ interface ArRouteChildren {
 const ArRouteChildren: ArRouteChildren = {
   ArAboutRoute: ArAboutRoute,
   ArContactRoute: ArContactRoute,
+  ArPricingRoute: ArPricingRoute,
   ArProcessRoute: ArProcessRoute,
   ArServicesRoute: ArServicesRoute,
   ArWorkRoute: ArWorkRoute,
@@ -312,6 +353,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ArRoute: ArRouteWithChildren,
   ContactRoute: ContactRoute,
+  PricingRoute: PricingRoute,
   ProcessRoute: ProcessRoute,
   ServicesRoute: ServicesRoute,
   WorkRoute: WorkRoute,
