@@ -1,48 +1,218 @@
-import { useState, type FormEvent, type ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
-import { ArrowDown, ArrowLeft, ArrowUpLeft, Check, CheckCircle2 } from "lucide-react";
-import { ArrowLink, DirectionMark, Eyebrow, PageIntro, ProjectCta, SectionHeading } from "@/components/page-elements";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { approachQuestionsAr, differentiatorsAr, industriesAr, philosophyQuestionsAr, processStepsAr, projectCategoriesAr, servicesAr, valuesAr } from "@/lib/site-data-ar";
+import { useLoaderData, useParams } from "@tanstack/react-router";
+import { Mail } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
+  CaseStudyFeatureGrid,
+  CaseStudyOptionalSection,
+  CaseStudyTagList,
+  DataState,
+  DirectionMark,
+  HeroBadge,
+  PageIntro,
+  RelatedWorkGrid,
+  SectionHeading,
+} from "@/components/page-elements";
+import { ProjectDetailPage } from "@/components/project-detail-page";
+import { GetStartedSection } from "@/components/get-started-section";
+import { RegionalPresenceSection } from "@/components/regional-presence-section";
+import { ProcessPage } from "@/components/process-page";
+import { processStepsAr } from "@/lib/site-data-ar";
 
-export function ArabicHomePage() {
-  return <>
-    <section className="hero-section"><div className="site-container relative grid min-h-[calc(100svh-5rem)] gap-12 py-16 lg:grid-cols-[1.15fr_.85fr] lg:items-center lg:py-20">
-      <div className="relative z-10 max-w-4xl"><Eyebrow inverse>شركة هندسة منتجات رقمية</Eyebrow><h1 className="mt-7 font-display text-6xl leading-[1.08] text-primary-foreground sm:text-8xl lg:text-[7rem]">عملك أولاً.<span className="mt-2 block text-hero-accent">ثم الكود.</span></h1><p className="mt-8 max-w-2xl text-lg leading-8 text-primary-foreground/70 sm:text-xl">تساعد وِجهان المؤسسين والشركات على تحويل مشكلات العمل الحقيقية إلى منتجات رقمية مدروسة وقابلة للتوسع.</p><div className="mt-9 flex flex-col gap-3 sm:flex-row"><Button variant="hero" size="lg" asChild><Link to="/ar/contact">ابدأ مشروعاً <ArrowLeft /></Link></Button><Button variant="heroOutline" size="lg" asChild><Link to="/ar/work">استكشف أعمالنا</Link></Button></div></div>
-      <div className="relative flex min-h-80 items-center justify-center lg:min-h-[34rem]"><DirectionMark /><p className="absolute bottom-3 left-0 max-w-52 border-r border-hero-accent pr-4 text-sm leading-6 text-primary-foreground/55">تبدأ الوجهة بمعرفة لماذا تستحق الوصول إليها.</p></div><ArrowDown className="absolute bottom-8 right-6 size-5 animate-bounce text-primary-foreground/40 md:right-10 lg:right-12" aria-hidden="true" />
-    </div></section>
-    <section className="section-pad"><div className="site-container"><div className="grid gap-14 lg:grid-cols-[.75fr_1.25fr]"><div className="reveal"><Eyebrow>المبدأ</Eyebrow><p className="mt-6 max-w-xs text-sm leading-6 text-muted-foreground">قبل التقنية، نطرح الأسئلة التي تشكّل كل ما يأتي بعدها.</p></div><div className="reveal"><h2 className="font-display text-4xl leading-tight sm:text-6xl lg:text-7xl">معظم المشاريع لا تفشل بسبب كود سيئ.</h2><p className="mt-7 font-display text-3xl text-accent sm:text-5xl">بل لأنها حلّت المشكلة الخطأ.</p></div></div><div className="mt-20 border-t border-border">{approachQuestionsAr.map((q,i)=><div key={q} className="question-row reveal"><span className="font-mono text-xs text-accent">0{i+1}</span><p>{q}</p><ArrowLeft className="size-5 text-muted-foreground" /></div>)}</div></div></section>
-    <section className="section-pad bg-secondary"><div className="site-container"><SectionHeading eyebrow="ما الذي نقدمه" title={<>من الغموض إلى<br />منتج ينجح.</>} copy="نجمع بين التفكير في العمل وتصميم المنتج والهندسة المنضبطة ضمن فريق واحد يتحمل المسؤولية." /><div className="mt-16 grid border-l border-t border-border md:grid-cols-2 lg:grid-cols-3">{servicesAr.map(({number,title,summary,icon:Icon})=><article key={title} className="service-tile reveal"><div className="flex items-start justify-between"><span className="font-mono text-xs text-muted-foreground">{number}</span><Icon className="size-6 text-accent" /></div><h3 className="mt-12 font-display text-3xl">{title}</h3><p className="mt-4 text-sm leading-6 text-muted-foreground">{summary}</p></article>)}</div><div className="mt-10 flex justify-end"><ArrowLink to="/ar/services">استكشف كل الخدمات</ArrowLink></div></div></section>
-    <section className="section-pad bg-primary text-primary-foreground"><div className="site-container"><SectionHeading eyebrow="منهجيتنا" inverse title={<>نفهم أولاً.<br /><span className="text-primary-foreground/45">ثم نبني.</span><br />ونطوّر باستمرار.</>} /><div className="mt-20 grid border-l border-t border-primary-foreground/15 md:grid-cols-2 lg:grid-cols-3">{processStepsAr.map(([n,t,c])=><article className="process-tile reveal" key={n}><span className="font-mono text-xs text-hero-accent">{n}</span><h3 className="mt-14 font-display text-3xl">{t}</h3><p className="mt-4 text-sm leading-6 text-primary-foreground/55">{c}</p></article>)}</div><div className="mt-10 flex justify-end"><ArrowLink to="/ar/process" inverse>اعرف كيف نعمل</ArrowLink></div></div></section>
-    <section className="section-pad"><div className="site-container"><SectionHeading eyebrow="لماذا وِجهان" title="لسنا مجرد مزوّد برمجيات آخر." copy="الفرق ليس في طريقة البناء وحدها، بل في طريقة تفكيرنا قبل أن نبدأ." /><div className="mt-16 lg:mr-[25%]">{differentiatorsAr.map(([t,c],i)=><article key={t} className="reveal grid gap-4 border-t border-border py-8 sm:grid-cols-[3rem_.7fr_1fr]"><span className="font-mono text-xs text-accent">0{i+1}</span><h3 className="text-xl font-semibold">{t}</h3><p className="text-sm leading-6 text-muted-foreground">{c}</p></article>)}</div></div></section>
-    <section className="section-pad border-t border-border bg-secondary"><div className="site-container"><SectionHeading eyebrow="بيئات الأعمال" title="خبرة عبر قطاعات متعددة." copy="نعمل في بيئات أعمال متنوعة من دون الادعاء بأن حلاً واحداً يناسب الجميع." /><div className="mt-14 grid grid-cols-2 border-l border-t border-border sm:grid-cols-4">{industriesAr.map(({name,icon:Icon})=><div key={name} className="industry-cell reveal"><Icon className="size-5 text-accent" /><span>{name}</span></div>)}</div></div></section><ProjectCta />
-  </>;
+export function ArabicCaseStudyPage() {
+  const { slug } = useParams({ from: "/ar/work/$slug" });
+  const loaderData = useLoaderData({ from: "/ar/work/$slug" });
+  return <ProjectDetailPage locale="ar" slug={slug} initialData={loaderData} />;
 }
 
-export function ArabicAboutPage() { return <>
-  <PageIntro eyebrow="عن وِجهان" title={<>لا نبدأ بالتقنية.<br /><span className="text-primary-foreground/45">بل نبدأ بالفهم.</span></>} copy="وِجهان شركة هندسة منتجات للمؤسسين والشركات التي تحتاج إلى شريك يفكر معها، لا إلى فريق ينفذ الأوامر فحسب." />
-  <section className="section-pad"><div className="site-container grid gap-14 lg:grid-cols-2"><div className="reveal"><SectionHeading eyebrow="اسمنا" title="وجهة لها غاية." /></div><div className="reveal space-y-6 text-lg leading-8 text-muted-foreground"><p>اسم <strong className="text-foreground">وِجهان</strong> مستلهم من مفهوم <strong className="text-foreground">الوِجهة</strong>؛ الطريق والمقصد والمسار نحو هدف.</p><p>لكن سؤالنا الأساسي ليس فقط «إلى أين نتجه؟» بل «لماذا نتجه إلى هناك من الأساس؟»</p><p>هذا السؤال يغيّر ما نبنيه، وما نؤجله، وكيف تدعم التقنية العمل.</p></div></div></section>
-  <section className="section-pad bg-secondary"><div className="site-container"><SectionHeading eyebrow="نموذج مختلف" title="من تنفيذ المتطلبات إلى تحمّل المسؤولية." copy="الاختلاف ليس في المصطلحات، بل في القرارات التي تُتخذ طوال حياة المنتج." /><div className="mt-16 grid gap-px bg-border lg:grid-cols-2"><article className="comparison-panel reveal"><p className="eyebrow text-muted-foreground">شركة برمجيات تقليدية</p><h3 className="mt-7 font-display text-3xl">تنفذ الطلب.</h3><div className="mt-12 flex flex-wrap items-center gap-3 text-sm"><span>متطلبات</span><ArrowLeft/><span>تطوير</span><ArrowLeft/><span>تسليم</span></div></article><article className="comparison-panel comparison-panel--active reveal"><p className="eyebrow text-hero-accent">وِجهان</p><h3 className="mt-7 font-display text-3xl">تفهم النتيجة المطلوبة.</h3><div className="mt-12 flex flex-wrap items-center gap-3 text-sm text-primary-foreground/70">{["العمل","المشكلة","المنتج","التصميم","الهندسة","التحقق","التطوير"].map((x,i,a)=><span className="contents" key={x}><span>{x}</span>{i<a.length-1?<ArrowLeft className="size-4"/>:null}</span>)}</div></article></div></div></section>
-  <section className="section-pad"><div className="site-container"><SectionHeading eyebrow="فلسفتنا" title="الهندسة الجيدة تبدأ بأسئلة جيدة." /><div className="mt-16 lg:mr-[32%]">{philosophyQuestionsAr.map((q,i)=><div className="question-row reveal" key={q}><span className="font-mono text-xs text-accent">0{i+1}</span><p>{q}</p><span className="font-display text-2xl text-muted-foreground">؟</span></div>)}</div></div></section>
-  <section className="section-pad bg-primary text-primary-foreground"><div className="site-container"><SectionHeading eyebrow="ما يوجّهنا" inverse title="مبادئ تصمد تحت الضغط." /><div className="mt-16 grid border-l border-t border-primary-foreground/15 md:grid-cols-2 lg:grid-cols-5">{valuesAr.map(([t,c],i)=><article className="process-tile reveal" key={t}><span className="font-mono text-xs text-hero-accent">0{i+1}</span><h3 className="mt-10 text-lg font-semibold">{t}</h3><p className="mt-4 text-sm leading-6 text-primary-foreground/55">{c}</p></article>)}</div></div></section>
-  <section className="section-pad"><div className="site-container grid gap-14 lg:grid-cols-2"><div><p className="eyebrow text-accent">رسالتنا</p><p className="mt-6 font-display text-3xl leading-snug">نحوّل الفهم العميق للأعمال إلى منتجات رقمية حقيقية وقرارات هندسية مرتبطة بالغاية منذ اليوم الأول.</p></div><div><p className="eyebrow text-accent">رؤيتنا</p><p className="mt-6 font-display text-3xl leading-snug">أن نصبح الوجهة الأولى لكل مؤسس يبحث عن شريك تقني يفهم العمل قبل الكود.</p></div></div></section><ProjectCta />
-  </>; }
+export function ArabicProcessPage() {
+  const notes = [
+    "نستمع قبل أن نقترح، ونكشف الافتراضات ونتفق على الحاجة الحقيقية.",
+    "نضع الحدود والأولويات وتعريًا مشترًا للنجاح.",
+    "نجعل المنتج ملموًا قبل زيادة الاستثمار الهندسي.",
+    "نختار التقنية الملائمة والقابلة للاستمرار والتسليم المسؤول.",
+    "نتحقق من المنتج وفق المتطلبات والاستخدام الحقيقي، لا الاكتمال التقني فقط.",
+    "نتعامل مع الإطلاق كبداية للتعلم، لا كنهاية للعمل.",
+  ];
+  return (
+    <ProcessPage
+      locale="ar"
+      badge="منهجيتنا"
+      title={
+        <>
+          نفهم أوًا.
+          <br />
+          ثم نبني.
+          <br />
+        </>
+      }
+      accent="ونطوّر باستمرار."
+      copy="تقلل منهجية المنتج الواضحة الهدر، وتكشف المخاطر مبكًا، وتربط كل قرار بهدف العمل."
+      steps={processStepsAr}
+      notes={notes}
+      phaseLabel="المرحلة"
+      principlesLabel="طوال العمل"
+      principlesTitle="وضوح في كل خطوة."
+      principles={[
+        ["تقدّم ظاهر", "يعرف الفريق وأصحاب المصلحة ما الذي يتحرك ولماذا."],
+        ["حقيقة مبكرة", "نكشف المخاطر والقرارات الصعبة قبل أن تصبح مكلفة."],
+        ["مسؤولية مشتركة", "يتحرك العمل والمنتج والتصميم والهندسة نحو النتيجة نفسها."],
+      ]}
+    />
+  );
+}
 
-export function ArabicServicesPage() { return <><PageIntro eyebrow="خدماتنا" title={<>المنتج الصحيح.<br /><span className="text-primary-foreground/45">مبني للسبب الصحيح.</span></>} copy="الاستراتيجية والتصميم والهندسة والتسليم تعمل كتخصص واحد مترابط، لا كمراحل منفصلة." /><section className="section-pad"><div className="site-container"><SectionHeading eyebrow="قدراتنا" title="شريك واحد، من السؤال إلى المنتج." copy="نشكّل كل تعاون حول تحدي العمل الحقيقي؛ فليس كل منتج بحاجة إلى كل خدمة." /><div className="mt-20">{servicesAr.map(({number,title,summary,capabilities,icon:Icon})=><article className="service-detail reveal" key={title}><div className="flex items-center gap-4"><span className="font-mono text-xs text-accent">{number}</span><Icon className="size-6 text-accent" /></div><div><h2 className="font-display text-3xl sm:text-4xl">{title}</h2><p className="mt-4 max-w-md leading-7 text-muted-foreground">{summary}</p></div><ul className="grid gap-3 sm:grid-cols-2">{capabilities.map(c=><li className="flex gap-3 text-sm" key={c}><Check className="mt-0.5 size-4 shrink-0 text-accent"/>{c}</li>)}</ul></article>)}</div></div></section><section className="section-pad bg-secondary"><div className="site-container grid gap-12 lg:grid-cols-[.8fr_1.2fr]"><SectionHeading eyebrow="كيف نتعاون" title="تعاون مبني حول الحاجة الفعلية." /><div className="grid gap-px bg-border sm:grid-cols-2">{[["منتجات جديدة","نحوّل الفكرة أو حاجة العمل إلى منتج تم التحقق منه."],["منتجات قائمة","نحسّن سهولة الاستخدام أو البنية أو الجودة أو التسليم."],["العمليات وأنظمة ERP","نحوّل العمليات المنفصلة إلى أنظمة عملية مترابطة."],["شراكة مدمجة","نضيف قدرات المنتج والهندسة إلى فريقك."]].map(([t,c])=><article className="bg-background p-8 reveal" key={t}><h3 className="text-lg font-semibold">{t}</h3><p className="mt-4 text-sm leading-6 text-muted-foreground">{c}</p></article>)}</div></div></section><ProjectCta /></>; }
+const contactFaqsAr = [
+  {
+    question: "خلال كم من الوقت ستردّون علينا؟",
+    answer: "خلال يوم عمل واحد. وغالبًا سيتواصل معك فريقنا في اليوم نفسه.",
+  },
+  {
+    question: "كم تستغرق المشاريع عادةً؟",
+    answer:
+      "يعتمد ذلك على النطاق — فالمنتج المركّز يستغرق عادةً من 8 إلى 16 أسبوعًا، أما مشاريع الـERP أو المنصات الأكبر فنحدد مدتها بعد مرحلة الاكتشاف.",
+  },
+  {
+    question: "هل تقدّمون مرحلة اكتشاف أو تجربة أولية قبل المشروع الكامل؟",
+    answer:
+      "نعم. للمشكلات الجديدة أو غير الواضحة نوصي غالبًا بمرحلة اكتشاف قصيرة للتأكد من صحة الحل قبل الالتزام بالتنفيذ الكامل.",
+  },
+  {
+    question: "كيف تحدّدون الأسعار؟",
+    answer:
+      "تُسعَّر المشاريع محددة النطاق بعد مرحلة الاكتشاف، أما الدعم الهندسي المستمر فيكون باشتراك شهري. شاركنا نطاق مشروعك في النموذج أدناه وسنرسل إليك النطاق السعري المناسب.",
+  },
+  {
+    question: "هل يمكنكم الربط مع أنظمتنا الحالية؟",
+    answer:
+      "نعم. نربط بانتظام مع الأنظمة القائمة عبر واجهات REST API وتسجيل الدخول الموحد (SAML/OAuth) وموصّلات مخصصة ضمن نطاق العمل الهندسي.",
+  },
+];
 
-export function ArabicWorkPage() { return <><PageIntro eyebrow="أعمال مختارة" title={<>تُقاس المنتجات<br /><span className="text-primary-foreground/45">بما تغيّره.</span></>} copy="ستعرض دراسات الحالة التحدي والقرارات والتقنية والنتيجة القابلة للقياس، من دون ادعاءات مبالغ فيها." /><section className="section-pad"><div className="site-container"><SectionHeading eyebrow="دراسات الحالة" title="الدليل، عندما يصبح جاهزاً." copy="لم تُزوّدنا بعد بتفاصيل مشروعات موثقة. سننشر دراسات الحالة الكاملة هنا بعد اعتمادها." /><div className="mt-16 border-y border-border py-14 text-center reveal"><p className="font-display text-3xl text-muted-foreground sm:text-4xl">نعمل على إعداد نماذج من أعمالنا.</p><Link to="/ar/contact" className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-accent">ناقش مشروعاً مشابهاً بسرية <ArrowUpLeft className="size-4"/></Link></div></div></section><section className="section-pad bg-secondary"><div className="site-container"><SectionHeading eyebrow="بيئات المشاريع" title="أنواع المشكلات التي نعمل عليها." copy="تصف هذه التصنيفات أنواعاً محتملة للمشاريع، ولا تمثل ادعاءات عن عملاء أو تخصصات حصرية." /><div className="mt-14 grid border-l border-t border-border sm:grid-cols-2 lg:grid-cols-3">{projectCategoriesAr.map((x,i)=><div className="service-tile reveal" key={x}><span className="font-mono text-xs text-muted-foreground">0{i+1}</span><h3 className="mt-12 font-display text-3xl">{x}</h3></div>)}</div></div></section><ProjectCta /></>; }
+export function ArabicContactPage() {
+  return (
+    <>
+      <section className="page-intro">
+        <div className="site-container grid gap-10 lg:grid-cols-[1.35fr_.65fr] lg:items-center">
+          <div className="reveal">
+            <HeroBadge>ابدأ مشروعك</HeroBadge>
+            <h1 className="mt-6 max-w-2xl font-display text-[2.5rem] leading-[.98] text-primary-foreground sm:text-6xl lg:text-7xl">
+              لنبدأ بفهم
+              <br />
+              <span className="text-primary-foreground/45">المشكلة أوًا.</span>
+            </h1>
+            <p className="mt-6 max-w-lg text-lg leading-8 text-primary-foreground/70">
+              أخبرنا بما تريد بناءه أو تحسينه أو حله. تبدأ المحادثة المفيدة بالسياق، لا بعرض
+              المبيعات.
+            </p>
+          </div>
+          <div className="reveal relative overflow-hidden rounded-2xl border border-primary-foreground/10 bg-primary-foreground/5 p-6 backdrop-blur sm:p-8">
+            <DirectionMark className="absolute end-[-7rem] top-[-7rem] w-[min(85vw,30rem)] opacity-30" />
+            <div className="relative z-10">
+              <div className="flex items-center gap-2">
+                <span className="h-px w-6 bg-primary-foreground/20" aria-hidden="true" />
+                <p className="text-xs font-bold uppercase tracking-widest text-hero-accent">
+                  تواصل معنا
+                </p>
+              </div>
+              <div className="mt-7 divide-y divide-primary-foreground/10">
+                <InfoRow
+                  label="البريد الإلكتروني"
+                  value="hello@wijhan.com"
+                  href="mailto:hello@wijhan.com"
+                />
+                <InfoRow
+                  label="الهاتف"
+                  value="+20 100 058 0504"
+                  href="tel:+201000580504"
+                  dir="ltr"
+                />
+                <InfoRow label="ساعات العمل" value="الأحد إلى الخميس، من 9 ص إلى 5 م" />
+                <InfoRow label="الرد" value="خلال يوم عمل واحد" accent />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <GetStartedSection locale="ar" includeOtherService eyebrow="تواصل معنا" />
 
-export function ArabicProcessPage() { const notes=["نستمع قبل أن نقترح، ونكشف الافتراضات ونتفق على الحاجة الحقيقية.","نضع الحدود والأولويات وتعريفاً مشتركاً للنجاح.","نجعل المنتج ملموساً قبل زيادة الاستثمار الهندسي.","نختار التقنية الملائمة والقابلة للاستمرار والتسليم المسؤول.","نتحقق من المنتج وفق المتطلبات والاستخدام الحقيقي، لا الاكتمال التقني فقط.","نتعامل مع الإطلاق كبداية للتعلم، لا كنهاية للعمل."]; return <><PageIntro eyebrow="منهجيتنا" title={<>نفهم أولاً.<br />ثم نبني.<br /><span className="text-primary-foreground/45">ونطوّر باستمرار.</span></>} copy="تقلل منهجية المنتج الواضحة الهدر، وتكشف المخاطر مبكراً، وتربط كل قرار بهدف العمل." /><section className="section-pad"><div className="site-container"><div className="process-line">{processStepsAr.map(([n,t,c],i)=><article className="process-step reveal" key={n}><div className="process-node">{n}</div><div><p className="eyebrow text-accent">المرحلة {n}</p><h2 className="mt-4 font-display text-4xl sm:text-5xl">{t}</h2><p className="mt-5 max-w-xl text-lg leading-8 text-muted-foreground">{c}</p></div><p className="hidden max-w-xs text-sm leading-6 text-muted-foreground lg:block">{notes[i]}</p></article>)}</div></div></section><section className="section-pad bg-secondary"><div className="site-container"><SectionHeading eyebrow="طوال العمل" title="وضوح في كل خطوة." /><div className="mt-14 grid gap-px bg-border md:grid-cols-3">{[["تقدّم ظاهر","يعرف الفريق وأصحاب المصلحة ما الذي يتحرك ولماذا."],["حقيقة مبكرة","نكشف المخاطر والقرارات الصعبة قبل أن تصبح مكلفة."],["مسؤولية مشتركة","يتحرك العمل والمنتج والتصميم والهندسة نحو النتيجة نفسها."]].map(([t,c])=><article className="bg-background p-8 reveal" key={t}><h3 className="text-xl font-semibold">{t}</h3><p className="mt-4 text-sm leading-6 text-muted-foreground">{c}</p></article>)}</div></div></section><ProjectCta /></>; }
+      <RegionalPresenceSection sectionId="regional-presence" arabic={true} />
 
-export function ArabicContactPage() { const [submitted,setSubmitted]=useState(false); const submit=(e:FormEvent<HTMLFormElement>)=>{e.preventDefault();setSubmitted(true)}; return <><PageIntro eyebrow="ابدأ مشروعاً" title={<>لنبدأ بفهم<br /><span className="text-primary-foreground/45">المشكلة أولاً.</span></>} copy="أخبرنا بما تريد بناءه أو تحسينه أو حله. تبدأ المحادثة المفيدة بالسياق، لا بعرض المبيعات." /><section className="section-pad"><div className="site-container grid gap-16 lg:grid-cols-[.65fr_1.35fr]"><aside className="reveal"><p className="eyebrow text-accent">قبل الإرسال</p><h2 className="mt-5 font-display text-4xl">القليل من السياق يصنع فرقاً كبيراً.</h2><p className="mt-6 leading-7 text-muted-foreground">شاركنا حاجة العمل، ومن يتأثر بها، وكيف تبدو النتيجة الأفضل. لا تحتاج إلى مواصفات مكتملة.</p><div className="mt-10 border-t border-border pt-6 space-y-5"><div><p className="text-xs text-muted-foreground">البريد الإلكتروني</p><a className="mt-2 block text-lg font-semibold" href="mailto:hello@wijhan.com">hello@wijhan.com</a></div><div><p className="text-xs text-muted-foreground">الهاتف</p><a className="mt-2 block text-lg font-semibold" href="tel:+201000580504" dir="ltr">+20 100 058 0504</a></div><div><p className="text-xs text-muted-foreground">المكتب</p><p className="mt-2 text-base leading-6">بيفرلي هيلز، الشيخ زايد<br />الجيزة، مصر</p></div><div><p className="text-xs text-muted-foreground">الموقع الإلكتروني</p><a className="mt-2 block text-lg font-semibold" href="https://wijhan.com">wijhan.com</a></div></div></aside>{submitted?<div className="flex min-h-96 flex-col items-start justify-center border-y border-border py-12 reveal"><CheckCircle2 className="size-9 text-accent"/><h2 className="mt-7 font-display text-4xl">ملخصك جاهز.</h2><p className="mt-5 max-w-lg leading-7 text-muted-foreground">خدمة الإرسال غير متصلة بعد، لذلك لم تُرسل أي رسالة. يرجى العودة بعد إضافة بيانات التواصل الرسمية.</p><Button className="mt-8" variant="outline" onClick={()=>setSubmitted(false)}>عدّل رسالتك</Button></div>:<form onSubmit={submit} className="grid gap-7 reveal" aria-label="نموذج طلب مشروع"><div className="grid gap-7 sm:grid-cols-2"><Field label="الاسم"><Input required name="name" autoComplete="name" placeholder="اسمك"/></Field><Field label="الشركة"><Input name="company" autoComplete="organization" placeholder="اسم الشركة"/></Field></div><div className="grid gap-7 sm:grid-cols-2"><Field label="البريد الإلكتروني"><Input required type="email" name="email" autoComplete="email" placeholder="you@company.com" dir="ltr"/></Field><Field label="الهاتف"><Input type="tel" name="phone" autoComplete="tel" placeholder="رقم الهاتف"/></Field></div><div className="grid gap-7 sm:grid-cols-2"><SelectField label="نوع المشروع" name="projectType" options={["منتج رقمي جديد","تحسين منتج قائم","حل ERP","اكتشاف المنتج","التصميم","الهندسة","أخرى"]}/><SelectField label="نطاق الميزانية" name="budget" options={["لم نحددها بعد","أقل من 10,000 دولار","10,000–25,000 دولار","25,000–50,000 دولار","أكثر من 50,000 دولار"]}/></div><Field label="وصف المشروع"><Textarea required name="description" className="min-h-44" placeholder="ما الذي تحاول بناءه أو تحسينه أو حله؟"/></Field><div className="flex flex-col gap-4 border-t border-border pt-7 sm:flex-row sm:items-center sm:justify-between"><p className="max-w-md text-xs leading-5 text-muted-foreground">تتحقق هذه النسخة من بياناتك فقط، ولا ترسلها حتى يتم ربط وسيلة التواصل الرسمية.</p><Button size="lg" type="submit">ابدأ المحادثة <ArrowLeft/></Button></div></form>}</div></section></>; }
+      <section className="section-pad border-t border-border">
+        <div className="site-container grid gap-10 lg:grid-cols-[.6fr_1.4fr] lg:items-start">
+          <div className="reveal">
+            <p className="flex items-center gap-3 text-xs font-bold uppercase tracking-wider text-accent">
+              <span className="h-px w-8 bg-accent" aria-hidden="true" />
+              الأسئلة الشائعة
+            </p>
+            <h2 className="mt-5 font-display text-3xl sm:text-4xl lg:text-5xl">أسئلة متكررة</h2>
+            <p className="mt-4 max-w-xs leading-7 text-muted-foreground">
+              لم تجد إجابة سؤالك؟ تواصل معنا مباشرة.
+            </p>
+            <a
+              className="mt-3 flex min-h-11 w-fit items-center gap-2 text-sm font-semibold text-accent"
+              href="mailto:hello@wijhan.com"
+            >
+              <Mail className="size-4" aria-hidden="true" />
+              hello@wijhan.com
+            </a>
+          </div>
+          <Accordion type="single" collapsible className="flex flex-col gap-4">
+            {contactFaqsAr.map((item) => (
+              <AccordionItem
+                key={item.question}
+                value={item.question}
+                className="rounded-2xl border-b-0 bg-background px-5 shadow-md sm:px-6"
+              >
+                <AccordionTrigger className="text-start font-display text-lg">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="leading-7 text-muted-foreground">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+    </>
+  );
+}
 
-export function ArabicPricingPage() { const models=[
-  {number:"01",title:"دورة الاكتشاف",tag:"نطاق وسعر ثابتان",summary:"تعاون قصير ومركّز يحوّل فكرة العمل أو المشكلة إلى تعريف منتج تم التحقق منه. تعرف التكلفة الكاملة قبل أن نبدأ.",includes:["تحليل العمل والمتطلبات","احتياجات المستخدمين ومعايير النجاح","تعريف المنتج وترتيب أولويات الخصائص","نطاق المنتج الأولي وخطة التسليم","عرض سعر ثابت لمرحلة البناء التالية"],best:"المؤسسون والفرق الذين يحتاجون إلى وضوح قبل الالتزام بالبناء."},
-  {number:"02",title:"بناء المنتج",tag:"تعاون بنطاق محدد",summary:"تصميم وهندسة يُسلَّمان وفق نطاق وجدول وسعر متفق عليها. يُحدَّد النطاق معاً أثناء الاكتشاف أو بعده، ولا نخمّنه أبداً.",includes:["تجربة المستخدم والواجهات والنماذج الأولية","هندسة الويب والهاتف والأنظمة الخلفية","ضمان الجودة واعتماد الإصدارات","تسليم على مراحل مع تقدّم ظاهر","سعر محدد مقابل نطاق متفق عليه"],best:"الشركات المستعدة لبناء منتج أو نظام محدد، بما في ذلك أنظمة ERP."},
-  {number:"03",title:"شراكة مدمجة",tag:"تعاون شهري",summary:"قدرات مستمرة في المنتج والتصميم والهندسة تعمل كجزء من فريقك وتُحتسب شهرياً. يمكن زيادة السعة أو تخفيضها مع تطور المنتج.",includes:["قدرات مخصصة في المنتج والهندسة","تحسين وتطوير مستمر","إدارة التسليم والتواصل مع أصحاب المصلحة","أولوية استجابة لمنتجك","سعر شهري متوقع"],best:"الفرق التي لديها منتج قائم وتحتاج إلى شريك تقني طويل الأمد."},
-] as const; const principles=[["لا مفاجآت بالساعة","نحدد السعر مقابل نطاق أو مقابل شهر، ويُتفق عليه كتابةً قبل بدء العمل."],["الاكتشاف قبل الالتزام","إذا لم تكن المشكلة واضحة بعد، نبدأ بدورة قصيرة بسعر ثابت، لا بعقد كبير."],["تقديرات صادقة","إذا كانت تكلفة شيء ما أكبر من قيمته، نقول ذلك قبل أن تنفق."],["التغيير مسعّر بشفافية","عندما يتغير النطاق، نوضح أثره على التكلفة والجدول قبل متابعة العمل."]] as const; return <><PageIntro eyebrow="الأسعار" title={<>نماذج واضحة.<br /><span className="text-primary-foreground/45">بلا ساعات خفية.</span></>} copy="كل منتج مختلف، لذلك لا ننشر قائمة أسعار عامة. بدلاً من ذلك، نعمل بثلاثة نماذج تعاون شفافة، ونقدّم رقماً دقيقاً بعد فهم نطاقك." /><section className="section-pad"><div className="site-container"><SectionHeading eyebrow="نماذج التعاون" title="ثلاث طرق للعمل معنا." copy="يتوافق كل نموذج مع مرحلة من رحلة المنتج. وكثير من التعاونات تنتقل من دورة اكتشاف إلى بناء، ثم إلى شراكة." /><div className="mt-20">{models.map((model)=><article className="service-detail reveal" key={model.title}><div className="flex items-center gap-4"><span className="font-mono text-xs text-accent">{model.number}</span><span className="eyebrow text-muted-foreground">{model.tag}</span></div><div><h2 className="font-display text-3xl sm:text-4xl">{model.title}</h2><p className="mt-4 max-w-md leading-7 text-muted-foreground">{model.summary}</p><p className="mt-6 max-w-md border-t border-border pt-5 text-sm leading-6"><span className="font-semibold">الأنسب لـ: </span><span className="text-muted-foreground">{model.best}</span></p></div><ul className="grid gap-3 sm:grid-cols-2">{model.includes.map((item)=><li className="flex gap-3 text-sm" key={item}><Check className="mt-0.5 size-4 shrink-0 text-accent"/>{item}</li>)}</ul></article>)}</div></div></section><section className="section-pad bg-secondary"><div className="site-container grid gap-12 lg:grid-cols-[.8fr_1.2fr]"><SectionHeading eyebrow="كيف نحتسب التكلفة" title="مبادئ تقف خلف كل عرض سعر." /><div className="grid gap-px bg-border sm:grid-cols-2">{principles.map(([title,copy])=><article className="bg-background p-8 reveal" key={title}><h3 className="text-lg font-semibold">{title}</h3><p className="mt-4 text-sm leading-6 text-muted-foreground">{copy}</p></article>)}</div></div></section><section className="section-pad"><div className="site-container grid gap-10 border-y border-border py-14 lg:grid-cols-[1fr_.8fr] lg:items-center"><h2 className="font-display text-3xl leading-snug sm:text-4xl reveal">تعتمد الأسعار على النطاق والفريق والجدول الزمني، لذلك تبدأ الإجابة الصادقة بمحادثة قصيرة، لا بقائمة أسعار.</h2><p className="max-w-md leading-7 text-muted-foreground reveal">أخبرنا بما تريد بناءه أو تحسينه أو حله. سنعود إليك بالنموذج الأنسب، ونطاق واضح، ورقم يمكنك محاسبتنا عليه.</p></div></section><ProjectCta /></>; }
-
-function Field({label,children}:{label:string;children:ReactNode}) { return <label className="form-field"><span>{label}</span>{children}</label>; }
-function SelectField({label,name,options}:{label:string;name:string;options:string[]}) { return <label className="form-field"><span>{label}</span><select name={name} required defaultValue=""><option value="" disabled>اختر من القائمة</option>{options.map(x=><option key={x}>{x}</option>)}</select></label>; }
+function InfoRow({
+  label,
+  value,
+  href,
+  dir,
+  accent = false,
+}: {
+  label: string;
+  value: string;
+  href?: string;
+  dir?: "ltr" | "rtl";
+  accent?: boolean;
+}) {
+  const valueClassName = accent
+    ? "text-end text-sm font-semibold text-hero-accent"
+    : "text-end text-sm font-semibold text-primary-foreground";
+  // Tappable rows (mailto:/tel:) get a full-height 44px hit area on touch screens.
+  const linkClassName = `${valueClassName} inline-flex min-h-11 items-center`;
+  return (
+    <div className="flex min-h-20 items-center justify-between gap-4 py-5 sm:gap-6">
+      <span className="text-sm text-primary-foreground/55">{label}</span>
+      {href ? (
+        <a className={linkClassName} href={href} dir={dir}>
+          {value}
+        </a>
+      ) : (
+        <span className={valueClassName} dir={dir}>
+          {value}
+        </span>
+      )}
+    </div>
+  );
+}

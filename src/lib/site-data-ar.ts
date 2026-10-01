@@ -1,29 +1,15 @@
 import {
-  Blocks,
   BriefcaseBusiness,
-  ClipboardCheck,
-  Compass,
-  DraftingCompass,
   HeartPulse,
   Leaf,
   PanelsTopLeft,
   Settings2,
-  ShieldCheck,
   ShoppingBag,
   Store,
+  Trophy,
   WalletCards,
-  Wrench,
   type LucideIcon,
 } from "lucide-react";
-
-export const servicesAr: { number: string; title: string; summary: string; capabilities: string[]; icon: LucideIcon }[] = [
-  { number: "01", title: "اكتشاف المنتج", summary: "نفهم العمل قبل أن نبني المنتج.", capabilities: ["فهم نموذج العمل", "تحليل المتطلبات", "احتياجات المستخدمين", "تعريف المنتج", "ترتيب أولويات الخصائص", "تخطيط المنتج الأولي"], icon: Compass },
-  { number: "02", title: "تصميم المنتج", summary: "نحوّل متطلبات العمل إلى تجارب رقمية واضحة.", capabilities: ["تجربة المستخدم", "واجهات المستخدم", "مسارات الاستخدام", "النماذج الأولية", "أنظمة التصميم", "واجهات المنتجات"], icon: DraftingCompass },
-  { number: "03", title: "هندسة البرمجيات", summary: "نبني منتجات رقمية قابلة للتوسع والصيانة.", capabilities: ["تطبيقات الويب", "تطبيقات الهاتف", "الأنظمة الخلفية", "واجهات البرمجة", "هندسة قواعد البيانات", "التكاملات", "Laravel وPHP", "MySQL"], icon: Wrench },
-  { number: "04", title: "حلول تخطيط موارد المؤسسات", summary: "نحوّل عمليات العمل إلى أنظمة مترابطة.", capabilities: ["تنفيذ أنظمة ERP", "تخصيص أنظمة ERP", "المخزون", "المبيعات", "المشتريات", "المحاسبة", "إدارة العملاء", "الموارد البشرية والرواتب", "المشروعات والتقارير"], icon: Blocks },
-  { number: "05", title: "ضمان الجودة", summary: "نتأكد من أن المنتج يعمل كما ينبغي.", capabilities: ["الاختبار الوظيفي", "اختبار الانحدار", "اختبار واجهات البرمجة", "حالات الاختبار", "متابعة الأخطاء", "اعتماد الإصدارات"], icon: ShieldCheck },
-  { number: "06", title: "إدارة المشاريع والتسليم", summary: "ننسّق بين فرق العمل والمنتج والهندسة والجودة.", capabilities: ["Agile وScrum", "تخطيط دورات العمل", "إدارة قائمة المهام", "التقدير", "إدارة المخاطر", "التواصل مع أصحاب المصلحة", "إدارة التسليم"], icon: ClipboardCheck },
-];
 
 export const processStepsAr = [
   ["01", "نفهم", "نفهم العمل والمستخدمين والأهداف والمشكلات."],
@@ -36,8 +22,8 @@ export const processStepsAr = [
 
 export const valuesAr = [
   ["الفهم قبل التنفيذ", "لا ينبغي كتابة أي سطر برمجي قبل فهم سبب الحاجة إليه."],
-  ["الصدق التقني", "إذا كانت الفكرة غير قابلة للنجاح تقنياً أو تجارياً، نقول ذلك مبكراً."],
-  ["البساطة المقصودة", "أبسط حل يعالج المشكلة الحقيقية هو غالباً الحل الأفضل."],
+  ["الصدق التقني", "إذا كانت الفكرة غير قابلة للنجاح تقنًا أو تجارًا، نقول ذلك مبكًا."],
+  ["البساطة المقصودة", "أبسط حل يعالج المشكلة الحقيقية هو غالًا الحل الأفضل."],
   ["المسؤولية الحقيقية", "نتعامل مع المنتج كمسؤولية، لا كمجموعة مهام منفصلة."],
   ["الشفافية", "تقدّم واضح، ومشكلات واضحة، وتوقعات واضحة، بلا مفاجآت في النهاية."],
 ] as const;
@@ -50,13 +36,39 @@ export const differentiatorsAr = [
   ["المسؤولية", "نعمل كشريك تقني، لا كفريق خارجي ينفذ التذاكر."],
 ] as const;
 
-export const industriesAr: { name: string; icon: LucideIcon }[] = [
-  { name: "الرعاية الصحية", icon: HeartPulse }, { name: "الزراعة", icon: Leaf },
-  { name: "التجزئة", icon: Store }, { name: "التجارة الإلكترونية", icon: ShoppingBag },
-  { name: "السيارات", icon: Settings2 }, { name: "التقنية المالية", icon: WalletCards },
-  { name: "المؤسسات", icon: BriefcaseBusiness }, { name: "المنصات الرقمية", icon: PanelsTopLeft },
+export const industriesAr: {
+  name: string;
+  icon: LucideIcon;
+  proof?: { slug: string; label: string };
+}[] = [
+  {
+    name: "الرياضة والمجتمعات",
+    icon: Trophy,
+    proof: { slug: "egyptian-coach", label: "Egyptian Coach" },
+  },
+  { name: "الرعاية الصحية", icon: HeartPulse },
+  { name: "الزراعة", icon: Leaf },
+  { name: "التجزئة", icon: Store },
+  { name: "التجارة الإلكترونية", icon: ShoppingBag },
+  { name: "السيارات", icon: Settings2 },
+  { name: "التقنية المالية", icon: WalletCards },
+  { name: "المؤسسات", icon: BriefcaseBusiness },
+  { name: "المنصات الرقمية", icon: PanelsTopLeft },
 ];
 
-export const projectCategoriesAr = ["أنظمة ERP", "الرعاية الصحية", "الزراعة", "التجارة الإلكترونية", "تطبيقات الهاتف", "السيارات", "المنصات الاجتماعية", "منصات الحجز", "التقنية المالية"];
-export const approachQuestionsAr = ["من هو العميل الحقيقي؟", "ما المشكلة التي نحلها؟", "كيف يبدو النجاح؟", "ما الذي ينبغي بناؤه أولاً؟", "ما الذي ينبغي ألا نبنيه؟"];
-export const philosophyQuestionsAr = ["لماذا يحتاج هذا المنتج إلى الوجود؟", "لمن نبنيه؟", "ما المشكلة التي يحلها؟", "كيف يبدو النجاح؟", "ما أبسط طريقة لحلها؟", "ما الذي نبنيه الآن؟", "ما الذي يمكن تأجيله؟"];
+export const approachQuestionsAr = [
+  "من هو العميل الحقيقي؟",
+  "ما المشكلة التي نحلها؟",
+  "كيف يبدو النجاح؟",
+  "ما الذي ينبغي بناؤه أوًا؟",
+  "ما الذي ينبغي ألا نبنيه؟",
+];
+export const philosophyQuestionsAr = [
+  "لماذا يحتاج هذا المنتج إلى الوجود؟",
+  "لمن نبنيه؟",
+  "ما المشكلة التي يحلها؟",
+  "كيف يبدو النجاح؟",
+  "ما أبسط طريقة لحلها؟",
+  "ما الذي نبنيه الآن؟",
+  "ما الذي يمكن تأجيله؟",
+];

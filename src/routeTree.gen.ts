@@ -12,18 +12,22 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ArRouteImport } from './routes/ar'
+import { Route as CaseStudiesRouteImport } from './routes/case-studies'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ProcessRouteImport } from './routes/process'
-import { Route as ServicesRouteImport } from './routes/services'
-import { Route as WorkRouteImport } from './routes/work'
 import { Route as ArIndexRouteImport } from './routes/ar.index'
 import { Route as ArAboutRouteImport } from './routes/ar.about'
+import { Route as ArCaseStudiesRouteImport } from './routes/ar.case-studies'
 import { Route as ArContactRouteImport } from './routes/ar.contact'
-import { Route as ArPricingRouteImport } from './routes/ar.pricing'
 import { Route as ArProcessRouteImport } from './routes/ar.process'
-import { Route as ArServicesRouteImport } from './routes/ar.services'
-import { Route as ArWorkRouteImport } from './routes/ar.work'
+import { Route as ServicesIndexRouteImport } from './routes/services.index'
+import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as WorkIndexRouteImport } from './routes/work.index'
+import { Route as WorkSlugRouteImport } from './routes/work.$slug'
+import { Route as ArServicesIndexRouteImport } from './routes/ar.services.index'
+import { Route as ArServicesSlugRouteImport } from './routes/ar.services.$slug'
+import { Route as ArWorkIndexRouteImport } from './routes/ar.work.index'
+import { Route as ArWorkSlugRouteImport } from './routes/ar.work.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,29 +44,19 @@ const ArRoute = ArRouteImport.update({
   path: '/ar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CaseStudiesRoute = CaseStudiesRouteImport.update({
+  id: '/case-studies',
+  path: '/case-studies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PricingRoute = PricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ProcessRoute = ProcessRouteImport.update({
   id: '/process',
   path: '/process',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesRoute = ServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const WorkRoute = WorkRouteImport.update({
-  id: '/work',
-  path: '/work',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ArIndexRoute = ArIndexRouteImport.update({
@@ -75,14 +69,14 @@ const ArAboutRoute = ArAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => ArRoute,
 } as any)
+const ArCaseStudiesRoute = ArCaseStudiesRouteImport.update({
+  id: '/case-studies',
+  path: '/case-studies',
+  getParentRoute: () => ArRoute,
+} as any)
 const ArContactRoute = ArContactRouteImport.update({
   id: '/contact',
   path: '/contact',
-  getParentRoute: () => ArRoute,
-} as any)
-const ArPricingRoute = ArPricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
   getParentRoute: () => ArRoute,
 } as any)
 const ArProcessRoute = ArProcessRouteImport.update({
@@ -90,14 +84,44 @@ const ArProcessRoute = ArProcessRouteImport.update({
   path: '/process',
   getParentRoute: () => ArRoute,
 } as any)
-const ArServicesRoute = ArServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesSlugRoute = ServicesSlugRouteImport.update({
+  id: '/services/$slug',
+  path: '/services/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkIndexRoute = WorkIndexRouteImport.update({
+  id: '/work/',
+  path: '/work/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkSlugRoute = WorkSlugRouteImport.update({
+  id: '/work/$slug',
+  path: '/work/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArServicesIndexRoute = ArServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
   getParentRoute: () => ArRoute,
 } as any)
-const ArWorkRoute = ArWorkRouteImport.update({
-  id: '/work',
-  path: '/work',
+const ArServicesSlugRoute = ArServicesSlugRouteImport.update({
+  id: '/services/$slug',
+  path: '/services/$slug',
+  getParentRoute: () => ArRoute,
+} as any)
+const ArWorkIndexRoute = ArWorkIndexRouteImport.update({
+  id: '/work/',
+  path: '/work/',
+  getParentRoute: () => ArRoute,
+} as any)
+const ArWorkSlugRoute = ArWorkSlugRouteImport.update({
+  id: '/work/$slug',
+  path: '/work/$slug',
   getParentRoute: () => ArRoute,
 } as any)
 
@@ -105,52 +129,64 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/ar': typeof ArRouteWithChildren
+  '/case-studies': typeof CaseStudiesRoute
   '/contact': typeof ContactRoute
-  '/pricing': typeof PricingRoute
   '/process': typeof ProcessRoute
-  '/services': typeof ServicesRoute
-  '/work': typeof WorkRoute
   '/ar/about': typeof ArAboutRoute
+  '/ar/case-studies': typeof ArCaseStudiesRoute
   '/ar/contact': typeof ArContactRoute
-  '/ar/pricing': typeof ArPricingRoute
   '/ar/process': typeof ArProcessRoute
-  '/ar/services': typeof ArServicesRoute
-  '/ar/work': typeof ArWorkRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/work/$slug': typeof WorkSlugRoute
   '/ar/': typeof ArIndexRoute
+  '/services/': typeof ServicesIndexRoute
+  '/work/': typeof WorkIndexRoute
+  '/ar/services/$slug': typeof ArServicesSlugRoute
+  '/ar/work/$slug': typeof ArWorkSlugRoute
+  '/ar/services/': typeof ArServicesIndexRoute
+  '/ar/work/': typeof ArWorkIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/case-studies': typeof CaseStudiesRoute
   '/contact': typeof ContactRoute
-  '/pricing': typeof PricingRoute
   '/process': typeof ProcessRoute
-  '/services': typeof ServicesRoute
-  '/work': typeof WorkRoute
   '/ar/about': typeof ArAboutRoute
+  '/ar/case-studies': typeof ArCaseStudiesRoute
   '/ar/contact': typeof ArContactRoute
-  '/ar/pricing': typeof ArPricingRoute
   '/ar/process': typeof ArProcessRoute
-  '/ar/services': typeof ArServicesRoute
-  '/ar/work': typeof ArWorkRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/work/$slug': typeof WorkSlugRoute
   '/ar': typeof ArIndexRoute
+  '/services': typeof ServicesIndexRoute
+  '/work': typeof WorkIndexRoute
+  '/ar/services/$slug': typeof ArServicesSlugRoute
+  '/ar/work/$slug': typeof ArWorkSlugRoute
+  '/ar/services': typeof ArServicesIndexRoute
+  '/ar/work': typeof ArWorkIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/ar': typeof ArRouteWithChildren
+  '/case-studies': typeof CaseStudiesRoute
   '/contact': typeof ContactRoute
-  '/pricing': typeof PricingRoute
   '/process': typeof ProcessRoute
-  '/services': typeof ServicesRoute
-  '/work': typeof WorkRoute
   '/ar/about': typeof ArAboutRoute
+  '/ar/case-studies': typeof ArCaseStudiesRoute
   '/ar/contact': typeof ArContactRoute
-  '/ar/pricing': typeof ArPricingRoute
   '/ar/process': typeof ArProcessRoute
-  '/ar/services': typeof ArServicesRoute
-  '/ar/work': typeof ArWorkRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/work/$slug': typeof WorkSlugRoute
   '/ar/': typeof ArIndexRoute
+  '/services/': typeof ServicesIndexRoute
+  '/work/': typeof WorkIndexRoute
+  '/ar/services/$slug': typeof ArServicesSlugRoute
+  '/ar/work/$slug': typeof ArWorkSlugRoute
+  '/ar/services/': typeof ArServicesIndexRoute
+  '/ar/work/': typeof ArWorkIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -158,62 +194,76 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/ar'
+    | '/case-studies'
     | '/contact'
-    | '/pricing'
     | '/process'
-    | '/services'
-    | '/work'
     | '/ar/about'
+    | '/ar/case-studies'
     | '/ar/contact'
-    | '/ar/pricing'
     | '/ar/process'
-    | '/ar/services'
-    | '/ar/work'
+    | '/services/$slug'
+    | '/work/$slug'
     | '/ar/'
+    | '/services/'
+    | '/work/'
+    | '/ar/services/$slug'
+    | '/ar/work/$slug'
+    | '/ar/services/'
+    | '/ar/work/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/case-studies'
     | '/contact'
-    | '/pricing'
     | '/process'
+    | '/ar/about'
+    | '/ar/case-studies'
+    | '/ar/contact'
+    | '/ar/process'
+    | '/services/$slug'
+    | '/work/$slug'
+    | '/ar'
     | '/services'
     | '/work'
-    | '/ar/about'
-    | '/ar/contact'
-    | '/ar/pricing'
-    | '/ar/process'
+    | '/ar/services/$slug'
+    | '/ar/work/$slug'
     | '/ar/services'
     | '/ar/work'
-    | '/ar'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/ar'
+    | '/case-studies'
     | '/contact'
-    | '/pricing'
     | '/process'
-    | '/services'
-    | '/work'
     | '/ar/about'
+    | '/ar/case-studies'
     | '/ar/contact'
-    | '/ar/pricing'
     | '/ar/process'
-    | '/ar/services'
-    | '/ar/work'
+    | '/services/$slug'
+    | '/work/$slug'
     | '/ar/'
+    | '/services/'
+    | '/work/'
+    | '/ar/services/$slug'
+    | '/ar/work/$slug'
+    | '/ar/services/'
+    | '/ar/work/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ArRoute: typeof ArRouteWithChildren
+  CaseStudiesRoute: typeof CaseStudiesRoute
   ContactRoute: typeof ContactRoute
-  PricingRoute: typeof PricingRoute
   ProcessRoute: typeof ProcessRoute
-  ServicesRoute: typeof ServicesRoute
-  WorkRoute: typeof WorkRoute
+  ServicesSlugRoute: typeof ServicesSlugRoute
+  WorkSlugRoute: typeof WorkSlugRoute
+  ServicesIndexRoute: typeof ServicesIndexRoute
+  WorkIndexRoute: typeof WorkIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -239,6 +289,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/case-studies': {
+      id: '/case-studies'
+      path: '/case-studies'
+      fullPath: '/case-studies'
+      preLoaderRoute: typeof CaseStudiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -246,32 +303,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/pricing': {
-      id: '/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PricingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/process': {
       id: '/process'
       path: '/process'
       fullPath: '/process'
       preLoaderRoute: typeof ProcessRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/services': {
-      id: '/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof ServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/work': {
-      id: '/work'
-      path: '/work'
-      fullPath: '/work'
-      preLoaderRoute: typeof WorkRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ar/': {
@@ -288,18 +324,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArAboutRouteImport
       parentRoute: typeof ArRoute
     }
+    '/ar/case-studies': {
+      id: '/ar/case-studies'
+      path: '/case-studies'
+      fullPath: '/ar/case-studies'
+      preLoaderRoute: typeof ArCaseStudiesRouteImport
+      parentRoute: typeof ArRoute
+    }
     '/ar/contact': {
       id: '/ar/contact'
       path: '/contact'
       fullPath: '/ar/contact'
       preLoaderRoute: typeof ArContactRouteImport
-      parentRoute: typeof ArRoute
-    }
-    '/ar/pricing': {
-      id: '/ar/pricing'
-      path: '/pricing'
-      fullPath: '/ar/pricing'
-      preLoaderRoute: typeof ArPricingRouteImport
       parentRoute: typeof ArRoute
     }
     '/ar/process': {
@@ -309,18 +345,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArProcessRouteImport
       parentRoute: typeof ArRoute
     }
-    '/ar/services': {
-      id: '/ar/services'
+    '/services/': {
+      id: '/services/'
       path: '/services'
-      fullPath: '/ar/services'
-      preLoaderRoute: typeof ArServicesRouteImport
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/$slug': {
+      id: '/services/$slug'
+      path: '/services/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof ServicesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/work/': {
+      id: '/work/'
+      path: '/work'
+      fullPath: '/work/'
+      preLoaderRoute: typeof WorkIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/work/$slug': {
+      id: '/work/$slug'
+      path: '/work/$slug'
+      fullPath: '/work/$slug'
+      preLoaderRoute: typeof WorkSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ar/services/': {
+      id: '/ar/services/'
+      path: '/services'
+      fullPath: '/ar/services/'
+      preLoaderRoute: typeof ArServicesIndexRouteImport
       parentRoute: typeof ArRoute
     }
-    '/ar/work': {
-      id: '/ar/work'
+    '/ar/services/$slug': {
+      id: '/ar/services/$slug'
+      path: '/services/$slug'
+      fullPath: '/ar/services/$slug'
+      preLoaderRoute: typeof ArServicesSlugRouteImport
+      parentRoute: typeof ArRoute
+    }
+    '/ar/work/': {
+      id: '/ar/work/'
       path: '/work'
-      fullPath: '/ar/work'
-      preLoaderRoute: typeof ArWorkRouteImport
+      fullPath: '/ar/work/'
+      preLoaderRoute: typeof ArWorkIndexRouteImport
+      parentRoute: typeof ArRoute
+    }
+    '/ar/work/$slug': {
+      id: '/ar/work/$slug'
+      path: '/work/$slug'
+      fullPath: '/ar/work/$slug'
+      preLoaderRoute: typeof ArWorkSlugRouteImport
       parentRoute: typeof ArRoute
     }
   }
@@ -328,22 +406,26 @@ declare module '@tanstack/react-router' {
 
 interface ArRouteChildren {
   ArAboutRoute: typeof ArAboutRoute
+  ArCaseStudiesRoute: typeof ArCaseStudiesRoute
   ArContactRoute: typeof ArContactRoute
-  ArPricingRoute: typeof ArPricingRoute
   ArProcessRoute: typeof ArProcessRoute
-  ArServicesRoute: typeof ArServicesRoute
-  ArWorkRoute: typeof ArWorkRoute
   ArIndexRoute: typeof ArIndexRoute
+  ArServicesSlugRoute: typeof ArServicesSlugRoute
+  ArWorkSlugRoute: typeof ArWorkSlugRoute
+  ArServicesIndexRoute: typeof ArServicesIndexRoute
+  ArWorkIndexRoute: typeof ArWorkIndexRoute
 }
 
 const ArRouteChildren: ArRouteChildren = {
   ArAboutRoute: ArAboutRoute,
+  ArCaseStudiesRoute: ArCaseStudiesRoute,
   ArContactRoute: ArContactRoute,
-  ArPricingRoute: ArPricingRoute,
   ArProcessRoute: ArProcessRoute,
-  ArServicesRoute: ArServicesRoute,
-  ArWorkRoute: ArWorkRoute,
   ArIndexRoute: ArIndexRoute,
+  ArServicesSlugRoute: ArServicesSlugRoute,
+  ArWorkSlugRoute: ArWorkSlugRoute,
+  ArServicesIndexRoute: ArServicesIndexRoute,
+  ArWorkIndexRoute: ArWorkIndexRoute,
 }
 
 const ArRouteWithChildren = ArRoute._addFileChildren(ArRouteChildren)
@@ -352,11 +434,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ArRoute: ArRouteWithChildren,
+  CaseStudiesRoute: CaseStudiesRoute,
   ContactRoute: ContactRoute,
-  PricingRoute: PricingRoute,
   ProcessRoute: ProcessRoute,
-  ServicesRoute: ServicesRoute,
-  WorkRoute: WorkRoute,
+  ServicesSlugRoute: ServicesSlugRoute,
+  WorkSlugRoute: WorkSlugRoute,
+  ServicesIndexRoute: ServicesIndexRoute,
+  WorkIndexRoute: WorkIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

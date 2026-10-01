@@ -1,40 +1,184 @@
-import { useState, type FormEvent, type ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
-import { PageIntro } from "@/components/page-elements";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Mail } from "lucide-react";
+import { DirectionMark, HeroBadge } from "@/components/page-elements";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { GetStartedSection } from "@/components/get-started-section";
+import { RegionalPresenceSection } from "@/components/regional-presence-section";
 import { englishLocaleMeta, languageAlternates } from "@/lib/seo";
 
+const contactFaqs = [
+  {
+    question: "How quickly will I hear back?",
+    answer:
+      "We respond to all enquiries within one business day. Urgent requests are prioritized same-day.",
+  },
+  {
+    question: "What is the typical project timeline?",
+    answer:
+      "A focused product build usually runs 8–16 weeks. Larger ERP or platform work is scoped after a discovery phase, once we understand the full picture.",
+  },
+  {
+    question: "Do you offer a discovery or pilot phase?",
+    answer:
+      "Yes. For new or ambiguous problems, we recommend a short, fixed-price discovery sprint to validate the approach before committing to full delivery.",
+  },
+  {
+    question: "What pricing models are available?",
+    answer:
+      "Fixed-scope pricing for defined projects, and a monthly retainer for ongoing engineering support. Share your scope in the form below and we'll quote the range that fits.",
+  },
+  {
+    question: "Can you integrate with our existing systems?",
+    answer:
+      "Yes. We regularly integrate with existing systems via REST APIs, SSO (SAML/OAuth) and custom connectors as part of the engineering scope.",
+  },
+];
+
 export const Route = createFileRoute("/contact")({
-  head: () => ({ meta: [
-    { title: "Start a Project | Contact Wijhan" },
-    { name: "description", content: "Tell Wijhan what you are trying to build, improve or solve. Start a product engineering conversation." },
-    { property: "og:title", content: "Start a Project | Contact Wijhan" },
-    { property: "og:description", content: "Let’s understand the problem first." },
-    { property: "og:type", content: "website" }, { property: "og:url", content: "/contact" }, { name: "twitter:card", content: "summary_large_image" },
+  head: () => ({
+    meta: [
+      { title: "Start a Project | Contact Wijhan" },
+      {
+        name: "description",
+        content:
+          "Tell Wijhan what you are trying to build, improve or solve. Start a product engineering conversation.",
+      },
+      { property: "og:title", content: "Start a Project | Contact Wijhan" },
+      { property: "og:description", content: "Let’s understand the problem first." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/contact" },
+      { name: "twitter:card", content: "summary_large_image" },
       ...englishLocaleMeta,
-  ], links: [{ rel: "canonical", href: "/contact" }, ...languageAlternates("/contact", "/ar/contact")] }), component: ContactPage,
+    ],
+    links: [
+      { rel: "canonical", href: "/contact" },
+      ...languageAlternates("/contact", "/ar/contact"),
+    ],
+  }),
+  component: ContactPage,
 });
 
 function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
-  function submit(event: FormEvent<HTMLFormElement>) { event.preventDefault(); setSubmitted(true); }
-  return <>
-    <PageIntro eyebrow="Start a project" title={<>Let’s understand<br /><span className="text-primary-foreground/45">the problem first.</span></>} copy="Tell us what you’re trying to build, improve, or solve. A useful conversation starts with context, not a sales pitch." />
-    <section className="section-pad"><div className="site-container grid gap-16 lg:grid-cols-[.65fr_1.35fr]">
-      <aside className="reveal"><p className="eyebrow text-accent">Before you send</p><h2 className="mt-5 font-display text-4xl">A little context goes a long way.</h2><p className="mt-6 leading-7 text-muted-foreground">Share the business need, who it affects and what a better outcome would look like. You do not need a finished specification.</p><div className="mt-10 border-t border-border pt-6 space-y-5"><div><p className="text-xs uppercase text-muted-foreground">Email</p><a className="mt-2 block text-lg font-semibold" href="mailto:hello@wijhan.com">hello@wijhan.com</a></div><div><p className="text-xs uppercase text-muted-foreground">Phone</p><a className="mt-2 block text-lg font-semibold" href="tel:+201000580504" dir="ltr">+20 100 058 0504</a></div><div><p className="text-xs uppercase text-muted-foreground">Office</p><p className="mt-2 text-base leading-6">Beverly Hills, Sheikh Zayed<br />Giza, Egypt</p></div><div><p className="text-xs uppercase text-muted-foreground">Website</p><a className="mt-2 block text-lg font-semibold" href="https://wijhan.com">wijhan.com</a></div></div></aside>
-      {submitted ? <div className="flex min-h-96 flex-col items-start justify-center border-y border-border py-12 reveal"><CheckCircle2 className="size-9 text-accent"/><h2 className="mt-7 font-display text-4xl">Your brief is ready.</h2><p className="mt-5 max-w-lg leading-7 text-muted-foreground">Form delivery is not connected yet, so no message was sent. Please return once official contact details are supplied.</p><Button className="mt-8" variant="outline" onClick={()=>setSubmitted(false)}>Edit your message</Button></div> : <form onSubmit={submit} className="grid gap-7 reveal" aria-label="Project enquiry form">
-        <div className="grid gap-7 sm:grid-cols-2"><Field label="Name"><Input required name="name" autoComplete="name" placeholder="Your name" /></Field><Field label="Company"><Input name="company" autoComplete="organization" placeholder="Company name" /></Field></div>
-        <div className="grid gap-7 sm:grid-cols-2"><Field label="Email"><Input required type="email" name="email" autoComplete="email" placeholder="you@company.com" /></Field><Field label="Phone"><Input type="tel" name="phone" autoComplete="tel" placeholder="Your phone number" /></Field></div>
-        <div className="grid gap-7 sm:grid-cols-2"><SelectField label="Project Type" name="projectType" options={["New digital product","Existing product improvement","ERP solution","Product discovery","Design","Engineering","Other"]}/><SelectField label="Budget Range" name="budget" options={["Not decided yet","Under $10,000","$10,000–$25,000","$25,000–$50,000","$50,000+"]}/></div>
-        <Field label="Project Description"><Textarea required name="description" className="min-h-44" placeholder="What are you trying to build, improve, or solve?" /></Field>
-        <div className="flex flex-col gap-4 border-t border-border pt-7 sm:flex-row sm:items-center sm:justify-between"><p className="max-w-md text-xs leading-5 text-muted-foreground">This preview validates your details but does not send them until official contact delivery is connected.</p><Button size="lg" type="submit">Start a Conversation <ArrowRight/></Button></div>
-      </form>}
-    </div></section>
-  </>;
+  return (
+    <>
+      <section className="page-intro">
+        <div className="site-container grid gap-10 lg:grid-cols-[1.35fr_.65fr] lg:items-center">
+          <div className="reveal">
+            <HeroBadge>Start a Project</HeroBadge>
+            <h1 className="mt-6 max-w-2xl font-display text-[2.5rem] leading-[.98] text-primary-foreground sm:text-6xl lg:text-7xl">
+              Let’s understand
+              <br />
+              <span className="text-primary-foreground/45">the problem first.</span>
+            </h1>
+            <p className="mt-6 max-w-lg text-lg leading-8 text-primary-foreground/70">
+              Tell us what you’re trying to build, improve, or solve. A useful conversation starts
+              with context, not a sales pitch.
+            </p>
+          </div>
+          <div className="reveal relative overflow-hidden rounded-2xl border border-primary-foreground/10 bg-primary-foreground/5 p-6 backdrop-blur sm:p-8">
+            <DirectionMark className="absolute end-[-7rem] top-[-7rem] w-[min(85vw,30rem)] opacity-30" />
+            <div className="relative z-10">
+              <div className="flex items-center gap-2">
+                <span className="h-px w-6 bg-primary-foreground/20" aria-hidden="true" />
+                <p className="text-xs font-bold uppercase tracking-widest text-hero-accent">
+                  Get in touch
+                </p>
+              </div>
+              <div className="mt-7 divide-y divide-primary-foreground/10">
+                <InfoRow label="Email" value="hello@wijhan.com" href="mailto:hello@wijhan.com" />
+                <InfoRow
+                  label="Phone"
+                  value="+20 100 058 0504"
+                  href="tel:+201000580504"
+                  dir="ltr"
+                />
+                <InfoRow label="Hours" value="Sun–Thu · 9–17 EET" />
+                <InfoRow label="Response" value="Within 1 business day" accent />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <GetStartedSection locale="en" includeOtherService eyebrow="Get in touch" />
+
+      <RegionalPresenceSection sectionId="regional-presence" arabic={false} />
+
+      <section className="section-pad border-t border-border">
+        <div className="site-container grid gap-10 lg:grid-cols-[.6fr_1.4fr] lg:items-start">
+          <div className="reveal">
+            <p className="flex items-center gap-3 text-xs font-bold uppercase tracking-wider text-accent">
+              <span className="h-px w-8 bg-accent" aria-hidden="true" />
+              FAQ
+            </p>
+            <h2 className="mt-5 font-display text-3xl sm:text-4xl lg:text-5xl">Frequently asked</h2>
+            <p className="mt-4 max-w-xs leading-7 text-muted-foreground">
+              Can't find what you're after? Reach out to us directly.
+            </p>
+            <a
+              className="mt-3 flex min-h-11 w-fit items-center gap-2 text-sm font-semibold text-accent"
+              href="mailto:hello@wijhan.com"
+            >
+              <Mail className="size-4" aria-hidden="true" />
+              hello@wijhan.com
+            </a>
+          </div>
+          <Accordion type="single" collapsible className="flex flex-col gap-4">
+            {contactFaqs.map((item) => (
+              <AccordionItem
+                key={item.question}
+                value={item.question}
+                className="rounded-2xl border-b-0 bg-background px-5 shadow-md sm:px-6"
+              >
+                <AccordionTrigger className="font-display text-lg">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="leading-7 text-muted-foreground">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+    </>
+  );
 }
 
-function Field({label, children}:{label:string;children:ReactNode}) { return <label className="form-field"><span>{label}</span>{children}</label>; }
-function SelectField({label,name,options}:{label:string;name:string;options:string[]}) { return <label className="form-field"><span>{label}</span><select name={name} required defaultValue=""><option value="" disabled>Select an option</option>{options.map(option=><option key={option}>{option}</option>)}</select></label>; }
+function InfoRow({
+  label,
+  value,
+  href,
+  dir,
+  accent = false,
+}: {
+  label: string;
+  value: string;
+  href?: string;
+  dir?: "ltr" | "rtl";
+  accent?: boolean;
+}) {
+  const valueClassName = accent
+    ? "text-end text-sm font-semibold text-hero-accent"
+    : "text-end text-sm font-semibold text-primary-foreground";
+  // Tappable rows (mailto:/tel:) get a full-height 44px hit area on touch screens.
+  const linkClassName = `${valueClassName} inline-flex min-h-11 items-center`;
+  return (
+    <div className="flex min-h-20 items-center justify-between gap-4 py-5 sm:gap-6">
+      <span className="text-sm text-primary-foreground/55">{label}</span>
+      {href ? (
+        <a className={linkClassName} href={href} dir={dir}>
+          {value}
+        </a>
+      ) : (
+        <span className={valueClassName} dir={dir}>
+          {value}
+        </span>
+      )}
+    </div>
+  );
+}

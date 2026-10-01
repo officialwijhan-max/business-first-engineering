@@ -5,18 +5,18 @@ import { arabicBreadcrumbJsonLd, arabicLocaleMeta, languageAlternates } from "@/
 export const Route = createFileRoute("/ar/contact")({
   head: () => ({
     meta: [
-      { title: "تواصل معنا | ابدأ مشروعك الرقمي مع وِجهان" },
+      { title: "تواصل معنا | ابدأ مشروعك الرقمي مع وجهان" },
       {
         name: "description",
         content:
-          "أخبر وِجهان بما تريد بناءه أو تحسينه أو حله، وابدأ محادثة حول منتجك الرقمي. نعمل مع شركات في الخليج ومصر والشرق الأوسط والأسواق العالمية.",
+          "أخبر وجهان بما تريد بناءه أو تحسينه أو حله، وابدأ محادثة حول منتجك الرقمي. نعمل مع شركات في الخليج ومصر والشرق الأوسط والأسواق العالمية.",
       },
       {
         name: "keywords",
-        content: "تواصل مع وِجهان، ابدأ مشروع، طلب عرض سعر تطوير برمجيات، شريك تقني في الشرق الأوسط",
+        content: "تواصل مع وجهان، ابدأ مشروع، طلب عرض سعر تطوير برمجيات، شريك تقني في الشرق الأوسط",
       },
-      { property: "og:title", content: "تواصل معنا | ابدأ مشروعك الرقمي مع وِجهان" },
-      { property: "og:description", content: "لنبدأ بفهم المشكلة أولاً." },
+      { property: "og:title", content: "تواصل معنا | ابدأ مشروعك الرقمي مع وجهان" },
+      { property: "og:description", content: "لنبدأ بفهم المشكلة أوًا." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/ar/contact" },
       { name: "twitter:card", content: "summary_large_image" },
