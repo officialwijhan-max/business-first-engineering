@@ -15,6 +15,7 @@ import { Route as ArRouteImport } from './routes/ar'
 import { Route as CaseStudiesRouteImport } from './routes/case-studies'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ProcessRouteImport } from './routes/process'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ArIndexRouteImport } from './routes/ar.index'
 import { Route as ArAboutRouteImport } from './routes/ar.about'
 import { Route as ArCaseStudiesRouteImport } from './routes/ar.case-studies'
@@ -57,6 +58,11 @@ const ContactRoute = ContactRouteImport.update({
 const ProcessRoute = ProcessRouteImport.update({
   id: '/process',
   path: '/process',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ArIndexRoute = ArIndexRouteImport.update({
@@ -132,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/case-studies': typeof CaseStudiesRoute
   '/contact': typeof ContactRoute
   '/process': typeof ProcessRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/ar/about': typeof ArAboutRoute
   '/ar/case-studies': typeof ArCaseStudiesRoute
   '/ar/contact': typeof ArContactRoute
@@ -152,6 +159,7 @@ export interface FileRoutesByTo {
   '/case-studies': typeof CaseStudiesRoute
   '/contact': typeof ContactRoute
   '/process': typeof ProcessRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/ar/about': typeof ArAboutRoute
   '/ar/case-studies': typeof ArCaseStudiesRoute
   '/ar/contact': typeof ArContactRoute
@@ -174,6 +182,7 @@ export interface FileRoutesById {
   '/case-studies': typeof CaseStudiesRoute
   '/contact': typeof ContactRoute
   '/process': typeof ProcessRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/ar/about': typeof ArAboutRoute
   '/ar/case-studies': typeof ArCaseStudiesRoute
   '/ar/contact': typeof ArContactRoute
@@ -197,6 +206,7 @@ export interface FileRouteTypes {
     | '/case-studies'
     | '/contact'
     | '/process'
+    | '/sitemap.xml'
     | '/ar/about'
     | '/ar/case-studies'
     | '/ar/contact'
@@ -217,6 +227,7 @@ export interface FileRouteTypes {
     | '/case-studies'
     | '/contact'
     | '/process'
+    | '/sitemap.xml'
     | '/ar/about'
     | '/ar/case-studies'
     | '/ar/contact'
@@ -238,6 +249,7 @@ export interface FileRouteTypes {
     | '/case-studies'
     | '/contact'
     | '/process'
+    | '/sitemap.xml'
     | '/ar/about'
     | '/ar/case-studies'
     | '/ar/contact'
@@ -260,6 +272,7 @@ export interface RootRouteChildren {
   CaseStudiesRoute: typeof CaseStudiesRoute
   ContactRoute: typeof ContactRoute
   ProcessRoute: typeof ProcessRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
   WorkSlugRoute: typeof WorkSlugRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
@@ -308,6 +321,13 @@ declare module '@tanstack/react-router' {
       path: '/process'
       fullPath: '/process'
       preLoaderRoute: typeof ProcessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ar/': {
@@ -437,6 +457,7 @@ const rootRouteChildren: RootRouteChildren = {
   CaseStudiesRoute: CaseStudiesRoute,
   ContactRoute: ContactRoute,
   ProcessRoute: ProcessRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   ServicesSlugRoute: ServicesSlugRoute,
   WorkSlugRoute: WorkSlugRoute,
   ServicesIndexRoute: ServicesIndexRoute,

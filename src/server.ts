@@ -1,7 +1,9 @@
 import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
+import { canonicalRedirect } from "./lib/canonical-redirect";
 import { renderErrorPage } from "./lib/error-page";
+import { withCacheHeaders } from "./lib/cache-headers";
 import { withSecurityHeaders } from "./lib/security-headers";
 
 type ServerEntry = {
@@ -58,19 +60,34 @@ function requestPathname(request: Request): string {
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    // Wrong host/scheme/trailing slash: one 301 to the canonical URL, before any rendering.
+    const redirectTo = canonicalRedirect(request);
+    if (redirectTo) {
+      return withSecurityHeaders(
+        new Response(null, {
+          status: 301,
+          headers: { location: redirectTo, "cache-control": "public, max-age=86400" },
+        }),
+      );
+    }
+
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return withSecurityHeaders(
-        await normalizeCatastrophicSsrResponse(response, requestPathname(request)),
+      return withCacheHeaders(
+        withSecurityHeaders(
+          await normalizeCatastrophicSsrResponse(response, requestPathname(request)),
+        ),
       );
     } catch (error) {
       console.error(error);
-      return withSecurityHeaders(
-        new Response(renderErrorPage(requestPathname(request)), {
-          status: 500,
-          headers: { "content-type": "text/html; charset=utf-8" },
-        }),
+      return withCacheHeaders(
+        withSecurityHeaders(
+          new Response(renderErrorPage(requestPathname(request)), {
+            status: 500,
+            headers: { "content-type": "text/html; charset=utf-8" },
+          }),
+        ),
       );
     }
   },

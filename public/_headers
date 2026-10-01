@@ -1,8 +1,35 @@
-# Static-asset security headers (Cloudflare Pages/Workers assets, Netlify).
-# HTML responses get the full set — including the CSP — from src/server.ts.
+# Static-asset headers (Cloudflare Workers/Pages assets, Netlify). HTML responses get their
+# security + cache headers from src/server.ts; see docs/hosting for the full edge config.
+
 /*
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+
+# Vite content-hashes everything under /assets (JS, CSS, fonts, images): safe to cache forever.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Un-hashed static files: revalidate daily, serve stale while refreshing.
+/og/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/data/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/case-studies/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/images/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/favicon.png
+  Cache-Control: public, max-age=86400
+/apple-touch-icon.png
+  Cache-Control: public, max-age=86400
+/icon-192.png
+  Cache-Control: public, max-age=86400
+/icon-512.png
+  Cache-Control: public, max-age=86400
+/site.webmanifest
+  Cache-Control: public, max-age=86400
+/robots.txt
+  Cache-Control: public, max-age=3600

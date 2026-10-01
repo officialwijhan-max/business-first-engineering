@@ -1,7 +1,7 @@
 import { QueryClient, dehydrate, hydrate, type DehydratedState } from "@tanstack/react-query";
 import { createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
-import { NotFoundComponent } from "./routes/__root";
+import { ErrorComponent, NotFoundComponent } from "./routes/__root";
 
 type Json = string | number | boolean | null | Json[] | { [key: string]: Json };
 
@@ -10,10 +10,11 @@ export const getRouter = () => {
     defaultOptions: {
       queries: {
         // Services/work change rarely and the API caches them too: don't refetch on every
-        // tab focus or remount, and retry a failed read only once.
+        // tab focus or remount, and retry a failed read only once in the browser. On the
+        // server a retry would double the time a visitor waits when the API is down.
         staleTime: 5 * 60 * 1000,
         refetchOnWindowFocus: false,
-        retry: 1,
+        retry: typeof window === "undefined" ? 0 : 1,
       },
     },
   });
@@ -36,6 +37,9 @@ export const getRouter = () => {
     // "not found" resolves against that layout's own boundary rather than
     // the root route — see the comment on NotFoundComponent itself.
     defaultNotFoundComponent: NotFoundComponent,
+    // Same for loader errors (e.g. API down on /work/:slug): without this, child routes fall
+    // back to the router's bare built-in error UI instead of the localized, noindex error page.
+    defaultErrorComponent: ErrorComponent,
   });
 
   return router;

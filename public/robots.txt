@@ -1,16 +1,9 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
+# https://www.wijhan.com/robots.txt
+# Everything public is crawlable. Scripts, styles, fonts and images (/assets, /og, /data) are
+# deliberately NOT blocked: Google needs them to render the pages.
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /api
 
-Sitemap: https://wijhan.com/sitemap.xml
+Sitemap: https://www.wijhan.com/sitemap.xml

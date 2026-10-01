@@ -31,5 +31,9 @@ export const API_BASE_URL: string = resolveApiBaseUrl(
   import.meta.env.PROD,
 );
 
-/** Abort API requests that take longer than this, so a hung backend can't hang the UI. */
-export const API_TIMEOUT_MS = 15_000;
+/**
+ * Abort API requests that take longer than this, so a hung backend can't hang the UI.
+ * Much tighter on the server: SSR blocks the HTML response on these calls, and a crawler
+ * (or user) should get a fast error page rather than wait out a browser-length timeout.
+ */
+export const API_TIMEOUT_MS = typeof window === "undefined" ? 5_000 : 15_000;
