@@ -7,15 +7,15 @@ redirects as a backstop and sets HTML cache headers; `public/_headers` sets stat
 
 ## 1. DNS / TLS
 
-| Setting | Value |
-| --- | --- |
-| `wijhan.com` and `www.wijhan.com` | proxied (orange cloud), both pointing at the Worker/Pages project |
-| SSL/TLS → mode | **Full (strict)** |
-| SSL/TLS → Edge Certificates → *Always Use HTTPS* | On |
-| *Minimum TLS version* | 1.2 |
-| *HSTS* | On: max-age 12 months (31536000), include subdomains, **preload only once all subdomains are https** |
-| *Automatic HTTPS Rewrites* | On (prevents mixed content) |
-| `api.wijhan.com` | proxied or DNS-only, but must serve valid https and CORS for `https://www.wijhan.com` (see §6) |
+| Setting                                          | Value                                                                                                |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| `wijhan.com` and `www.wijhan.com`                | proxied (orange cloud), both pointing at the Worker/Pages project                                    |
+| SSL/TLS → mode                                   | **Full (strict)**                                                                                    |
+| SSL/TLS → Edge Certificates → _Always Use HTTPS_ | On                                                                                                   |
+| _Minimum TLS version_                            | 1.2                                                                                                  |
+| _HSTS_                                           | On: max-age 12 months (31536000), include subdomains, **preload only once all subdomains are https** |
+| _Automatic HTTPS Rewrites_                       | On (prevents mixed content)                                                                          |
+| `api.wijhan.com`                                 | proxied or DNS-only, but must serve valid https and CORS for `https://www.wijhan.com` (see §6)       |
 
 Add `wijhan.com` as a custom domain on the project too (so the redirect rule below can answer it).
 
@@ -26,7 +26,7 @@ Create these **in this order**. Each one sends the visitor straight to the final
 **Rule 1 — apex or plain http → `https://www.wijhan.com`, dropping a trailing slash**
 
 - When: `(http.host eq "wijhan.com") or (http.host eq "www.wijhan.com" and not ssl)`
-- Then: *Dynamic* redirect, status **301**, preserve query string off (the expression below re-adds it):
+- Then: _Dynamic_ redirect, status **301**, preserve query string off (the expression below re-adds it):
 
 ```
 concat(
@@ -46,14 +46,14 @@ concat(
 **Rule 2 — trailing slash on www → no slash** (`/work/` → `/work`)
 
 - When: `(http.host eq "www.wijhan.com") and (len(http.request.uri.path) gt 1) and (ends_with(http.request.uri.path, "/"))`
-- Then: *Dynamic* redirect, 301 → same `concat(…)` with `regex_replace` as above (or use a *Bulk Redirect* list if regex is unavailable).
+- Then: _Dynamic_ redirect, 301 → same `concat(…)` with `regex_replace` as above (or use a _Bulk Redirect_ list if regex is unavailable).
 
 **Rule 3 — removed pages** (also handled by the app; list is `LEGACY_REDIRECTS` in `src/lib/canonical-redirect.ts`)
 
-| From | To | Status |
-| --- | --- | --- |
-| `/pricing` | `/contact` | 301 |
-| `/ar/pricing` | `/ar/contact` | 301 |
+| From          | To            | Status |
+| ------------- | ------------- | ------ |
+| `/pricing`    | `/contact`    | 301    |
+| `/ar/pricing` | `/ar/contact` | 301    |
 
 Verify with:
 
@@ -69,22 +69,22 @@ curl -sI https://www.wijhan.com/about   | grep -iE "^(HTTP|location)"   # 200, n
 The Worker sets `Cache-Control` on HTML (`public, max-age=0, s-maxage=300, stale-while-revalidate=600`;
 404 `s-maxage=60`; 5xx `no-store`). Cloudflare does **not** cache HTML by default, so:
 
-| Rule | Match | Action |
-| --- | --- | --- |
-| Hashed assets | `starts_with(http.request.uri.path, "/assets/")` | Eligible for cache; Edge TTL: *respect origin*; Browser TTL: *respect origin* (`public, max-age=31536000, immutable` comes from `public/_headers`) |
-| HTML + sitemap | `(http.host eq "www.wijhan.com") and not starts_with(http.request.uri.path, "/assets/")` | Eligible for cache; Edge TTL: *respect origin headers*; Browser TTL: *respect origin* |
-| Bypass | `http.request.uri.path contains "/admin"` | Bypass cache |
+| Rule           | Match                                                                                    | Action                                                                                                                                             |
+| -------------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hashed assets  | `starts_with(http.request.uri.path, "/assets/")`                                         | Eligible for cache; Edge TTL: _respect origin_; Browser TTL: _respect origin_ (`public, max-age=31536000, immutable` comes from `public/_headers`) |
+| HTML + sitemap | `(http.host eq "www.wijhan.com") and not starts_with(http.request.uri.path, "/assets/")` | Eligible for cache; Edge TTL: _respect origin headers_; Browser TTL: _respect origin_                                                              |
+| Bypass         | `http.request.uri.path contains "/admin"`                                                | Bypass cache                                                                                                                                       |
 
-Never set an *override* TTL on HTML: the origin's `no-store` on 5xx must win, otherwise an API outage
+Never set an _override_ TTL on HTML: the origin's `no-store` on 5xx must win, otherwise an API outage
 can be cached at the edge.
 
 ## 4. Compression (Speed → Optimization → Content Optimization)
 
 - **Brotli: On** (Cloudflare serves br to browsers that accept it, gzip otherwise). Nothing to configure
   in the app.
-- Leave *Rocket Loader* **Off** (it rewrites script loading and breaks hydration timing) and
-  *Auto Minify* **Off** (the build already minifies).
-- *Early Hints*: On (lets Cloudflare send the font/CSS `preload`s before the HTML finishes).
+- Leave _Rocket Loader_ **Off** (it rewrites script loading and breaks hydration timing) and
+  _Auto Minify_ **Off** (the build already minifies).
+- _Early Hints_: On (lets Cloudflare send the font/CSS `preload`s before the HTML finishes).
 
 ## 5. Security headers / SEO-relevant behaviour
 

@@ -7,7 +7,9 @@
  * so a misconfigured deploy can never silently send form data over plain HTTP
  * or to a localhost fallback.
  */
-const DEV_FALLBACK = "http://127.0.0.1:8000/api/v1";
+// Only exists in dev builds: `import.meta.env.DEV` is a build-time constant, so the localhost URL
+// is dropped from production bundles instead of shipping as dead code.
+const DEV_FALLBACK = import.meta.env.DEV ? "http://127.0.0.1:8000/api/v1" : "";
 
 function resolveApiBaseUrl(raw: string | undefined, production: boolean): string {
   const value = (raw ?? "").trim().replace(/\/+$/, "");
