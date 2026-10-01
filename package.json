@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "seo:audit": "node scripts/seo-audit.mjs"
   },
   "overrides": {
     "rolldown": "1.2.1"
