@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CaseStudiesPage, pickFeaturedProject } from "@/components/case-studies-page";
+import { CaseStudiesPage } from "@/components/case-studies-page";
+import { pickFeaturedProject } from "@/lib/featured-project";
 import { useCategorySearchParam } from "@/components/project-listing";
 import { caseStudyQueryOptions } from "@/hooks/use-case-study";
 import { workQueryOptions } from "@/hooks/use-work";

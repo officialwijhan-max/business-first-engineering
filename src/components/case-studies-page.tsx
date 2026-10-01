@@ -21,6 +21,7 @@ import { locations } from "@/content/about";
 import { getProjectDetailContent } from "@/content/project-details";
 import type { CaseStudy, CaseStudyDetail, Locale, WorkData } from "@/api/types";
 import { screenshotImage } from "@/lib/images";
+import { pickFeaturedProject } from "@/lib/featured-project";
 
 /**
  * "Customer Outcomes" page. Every name, category, and outcome shown here comes from
@@ -30,16 +31,6 @@ import { screenshotImage } from "@/lib/images";
 
 // Zoomed on Cairo so the single hub reads clearly inside the small hero card.
 const HERO_PROJECTION = { center: [33, 29] as [number, number], scale: 900 };
-
-/** The `featured` project, else the most recently published one, else the first. */
-export function pickFeaturedProject(projects: CaseStudy[]): CaseStudy | null {
-  const flagged = projects.find((project) => project.featured);
-  if (flagged) return flagged;
-  const [mostRecent] = [...projects].sort((a, b) =>
-    (b.published_at ?? "").localeCompare(a.published_at ?? ""),
-  );
-  return mostRecent ?? null;
-}
 
 type CaseStudiesPageProps = {
   locale: Locale;

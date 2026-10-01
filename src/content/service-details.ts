@@ -25,8 +25,6 @@ export interface ServiceDetailCopy {
   benefitsTitle?: string;
   benefitsSubtitle?: string;
   processTitle?: string;
-  seoTitle?: string;
-  seoDescription?: string;
   capabilities: ServiceDetailCard[];
   benefits: ServiceDetailCard[];
   process: ServiceDetailCard[];
@@ -45,9 +43,6 @@ export const serviceDetailContent: Record<string, ServiceDetailContent> = {
       heroHeadlineAccent: "Built Around Your Business.",
       heroParagraph:
         "We design, build, and scale custom software for founders and growing businesses — from internal platforms and workflow engines to customer-facing products — engineered to fit the way your business actually works.",
-      seoTitle: "Custom Software Development & Platforms | Wijhan",
-      seoDescription:
-        "Custom software, internal platforms and workflow engines for founders and growing businesses, engineered around how your business works.",
       capabilities: [
         {
           title: "Business Web Platforms",
@@ -125,9 +120,6 @@ export const serviceDetailContent: Record<string, ServiceDetailContent> = {
       heroHeadlineAccent: "مبنية حول عملك.",
       heroParagraph:
         "نصمّم ونبني ونطوّر برمجيات مخصصة للمؤسسين والشركات النامية، من المنصات الداخلية وأنظمة سير العمل إلى المنتجات الموجهة للعملاء، مهندسة لتناسب طريقة عمل شركتك فعلًا.",
-      seoTitle: "تطوير البرمجيات والمنصات المخصصة | وجهان",
-      seoDescription:
-        "برمجيات ومنصات داخلية وأنظمة سير عمل مخصصة للمؤسسين والشركات النامية، مهندسة لتناسب طريقة عمل شركتك.",
       capabilities: [
         {
           title: "منصات الويب للأعمال",
@@ -209,9 +201,6 @@ export const serviceDetailContent: Record<string, ServiceDetailContent> = {
       benefitsTitle: "Why Businesses Choose Wijhan for Mobile.",
       benefitsSubtitle: "What sets our mobile work apart.",
       processTitle: "The Mobile Product Lifecycle.",
-      seoTitle: "Mobile App Development — iOS & Android | Wijhan",
-      seoDescription:
-        "Native iOS and Android apps plus Flutter and React Native. Arabic RTL, offline-first, built for growing businesses.",
       capabilities: [
         {
           title: "Cross-Platform Development",
@@ -290,9 +279,6 @@ export const serviceDetailContent: Record<string, ServiceDetailContent> = {
       benefitsTitle: "لماذا تختار الشركات وجهان للموبايل.",
       benefitsSubtitle: "ما الذي يميّز عملنا في الموبايل.",
       processTitle: "دورة حياة منتج الموبايل.",
-      seoTitle: "تطوير تطبيقات الموبايل — iOS وAndroid | وجهان",
-      seoDescription:
-        "تطبيقات iOS وAndroid الأصلية، بالإضافة إلى Flutter وReact Native. دعم العربية من اليمين إلى اليسار، تعمل بدون إنترنت، ومبنية للشركات النامية.",
       capabilities: [
         {
           title: "التطوير متعدد المنصات",
@@ -374,9 +360,6 @@ export const serviceDetailContent: Record<string, ServiceDetailContent> = {
       benefitsTitle: "Why Businesses Choose Wijhan for Web.",
       benefitsSubtitle: "What sets our web engineering apart.",
       processTitle: "The Web Project Lifecycle.",
-      seoTitle: "Web Portals & Website Development | Wijhan",
-      seoDescription:
-        "Corporate websites, customer portals, e-commerce, and PWAs. Arabic RTL, SEO-optimized, accessible, and built to scale.",
       capabilities: [
         {
           title: "Business & Client Portals",
@@ -460,9 +443,6 @@ export const serviceDetailContent: Record<string, ServiceDetailContent> = {
       benefitsTitle: "لماذا تختار الشركات وجهان للويب.",
       benefitsSubtitle: "ما الذي يميّز عملنا في هندسة الويب.",
       processTitle: "دورة حياة مشروع الويب.",
-      seoTitle: "تطوير بوابات ومواقع الويب | وجهان",
-      seoDescription:
-        "مواقع الشركات، وبوابات العملاء، والتجارة الإلكترونية، وتطبيقات PWA. دعم العربية من اليمين إلى اليسار، محسّنة لمحركات البحث، سهلة الوصول، ومبنية للتوسع.",
       capabilities: [
         {
           title: "بوابات الأعمال والعملاء",
@@ -549,9 +529,6 @@ export const serviceDetailContent: Record<string, ServiceDetailContent> = {
       benefitsTitle: "Why Businesses Choose Wijhan for Design.",
       benefitsSubtitle: "What sets our design practice apart.",
       processTitle: "The UX Design Lifecycle.",
-      seoTitle: "UI/UX Design & Arabic RTL Interfaces | Wijhan",
-      seoDescription:
-        "Research-driven product design: wireframes, prototypes, design systems, Arabic RTL, and accessibility for web and mobile.",
       capabilities: [
         {
           title: "User Research & Discovery",
@@ -635,9 +612,6 @@ export const serviceDetailContent: Record<string, ServiceDetailContent> = {
       benefitsTitle: "لماذا تختار الشركات وجهان للتصميم.",
       benefitsSubtitle: "ما الذي يميّز ممارستنا في التصميم.",
       processTitle: "دورة حياة تصميم التجربة.",
-      seoTitle: "تصميم UI/UX وواجهات عربية من اليمين إلى اليسار | وجهان",
-      seoDescription:
-        "تصميم منتجات مبني على البحث: المخططات الأولية (wireframes)، نماذج أولية، أنظمة تصميم، العربية من اليمين إلى اليسار، وإمكانية وصول للويب والموبايل.",
       capabilities: [
         {
           title: "أبحاث المستخدمين والاستكشاف",
@@ -723,9 +697,6 @@ export const serviceDetailContent: Record<string, ServiceDetailContent> = {
       benefitsTitle: "Why Businesses Choose Wijhan for Integration.",
       benefitsSubtitle: "What sets our integration work apart.",
       processTitle: "The Integration Lifecycle.",
-      seoTitle: "System Integration & Middleware Development | Wijhan",
-      seoDescription:
-        "Connect ERP, CRM, legacy systems, and third-party APIs with secure middleware and data pipelines.",
       capabilities: [
         {
           title: "API Development & Management",
@@ -809,9 +780,6 @@ export const serviceDetailContent: Record<string, ServiceDetailContent> = {
       benefitsTitle: "لماذا تختار الشركات وجهان للتكامل.",
       benefitsSubtitle: "ما الذي يميّز عملنا في التكامل.",
       processTitle: "دورة حياة التكامل.",
-      seoTitle: "تطوير تكامل الأنظمة والوسيط البرمجي (Middleware) | وجهان",
-      seoDescription:
-        "اربط أنظمة ERP وCRM والأنظمة القديمة وواجهات API الخارجية عبر وسيط برمجي (middleware) آمن ومسارات بيانات.",
       capabilities: [
         {
           title: "تطوير وإدارة واجهات API",
@@ -897,9 +865,6 @@ export const serviceDetailContent: Record<string, ServiceDetailContent> = {
       benefitsTitle: "Why Businesses Choose Wijhan for ERP.",
       benefitsSubtitle: "What sets our ERP delivery apart.",
       processTitle: "The ERP Implementation Lifecycle.",
-      seoTitle: "Custom ERP Solutions & Implementation | Wijhan",
-      seoDescription:
-        "Tailored ERP systems for operations, finance, inventory, sales, and HR: built around your workflows, with training and support.",
       capabilities: [
         {
           title: "ERP Strategy & Requirements",
@@ -983,9 +948,6 @@ export const serviceDetailContent: Record<string, ServiceDetailContent> = {
       benefitsTitle: "لماذا تختار الشركات وجهان لأنظمة ERP.",
       benefitsSubtitle: "ما الذي يميّز تنفيذنا لأنظمة ERP.",
       processTitle: "دورة حياة تنفيذ ERP.",
-      seoTitle: "حلول ERP مخصصة وتنفيذها | وجهان",
-      seoDescription:
-        "أنظمة ERP مخصصة للعمليات والمالية والمخزون والمبيعات والموارد البشرية، مبنية حول سير عملك، مع التدريب والدعم.",
       capabilities: [
         {
           title: "استراتيجية ERP وتحديد المتطلبات",

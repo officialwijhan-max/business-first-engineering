@@ -1,7 +1,7 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { ServiceDetailPage } from "@/components/service-detail-page";
 import { servicesQueryOptions } from "@/hooks/use-services";
-import { getServiceDetailContent } from "@/content/service-details";
+import { getServiceSeo } from "@/content/service-seo";
 import { breadcrumbJsonLd, pageHead, serviceSchemaJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/services/$slug")({
@@ -14,10 +14,10 @@ export const Route = createFileRoute("/services/$slug")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) return {};
-    const detail = getServiceDetailContent(loaderData.slug)?.en;
-    const title = detail?.seoTitle ?? `${loaderData.title} | Wijhan Services`;
+    const seo = getServiceSeo(loaderData.slug, "en");
+    const title = seo?.title ?? `${loaderData.title} | Wijhan Services`;
     const description =
-      detail?.seoDescription ?? `${loaderData.summary}. A Wijhan product engineering service.`;
+      seo?.description ?? `${loaderData.summary}. A Wijhan product engineering service.`;
     const enPath = `/services/${loaderData.slug}`;
 
     return pageHead({

@@ -1,7 +1,7 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { ServiceDetailPage } from "@/components/service-detail-page";
 import { servicesQueryOptions } from "@/hooks/use-services";
-import { getServiceDetailContent } from "@/content/service-details";
+import { getServiceSeo } from "@/content/service-seo";
 import { breadcrumbJsonLd, lacksArabic, pageHead, serviceSchemaJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/ar/services/$slug")({
@@ -13,10 +13,10 @@ export const Route = createFileRoute("/ar/services/$slug")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) return {};
-    const detail = getServiceDetailContent(loaderData.slug)?.ar;
-    const title = detail?.seoTitle ?? `${loaderData.title} | خدمات وجهان`;
+    const seo = getServiceSeo(loaderData.slug, "ar");
+    const title = seo?.title ?? `${loaderData.title} | خدمات وجهان`;
     const description =
-      detail?.seoDescription ?? `${loaderData.summary}. خدمة هندسة منتجات رقمية من وجهان.`;
+      seo?.description ?? `${loaderData.summary}. خدمة هندسة منتجات رقمية من وجهان.`;
     const enPath = `/services/${loaderData.slug}`;
 
     return pageHead({
