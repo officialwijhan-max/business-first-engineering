@@ -621,6 +621,8 @@ function ProjectHero({
             {logo ? (
               <img
                 src={logo}
+                width={480}
+                height={398}
                 alt=""
                 className="absolute bottom-10 start-[max(0px,calc(50%-14rem))] z-20 size-16 rounded-2xl border border-primary-foreground/15 bg-white object-contain p-2 shadow-xl"
               />
@@ -696,6 +698,8 @@ function OverviewSection({
                 {logo && (previewImage || coverImage) ? (
                   <img
                     src={logo}
+                    width={480}
+                    height={398}
                     alt=""
                     className="size-11 rounded-full border border-border bg-white object-contain p-1.5 shadow-sm"
                   />
@@ -717,6 +721,8 @@ function OverviewSection({
               ) : logo ? (
                 <img
                   src={logo}
+                  width={480}
+                  height={398}
                   alt={arabic ? `شعار ${title}` : `${title} logo`}
                   className="relative z-10 max-h-20 w-auto"
                 />

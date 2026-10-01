@@ -389,6 +389,8 @@ function FeaturedProject({
         {projectLogo ? (
           <img
             src={projectLogo}
+            width={480}
+            height={398}
             alt=""
             className="absolute end-7 top-7 size-12 rounded-full border border-primary-foreground/15 bg-white object-contain p-1.5 shadow-sm"
           />
@@ -415,6 +417,8 @@ function FeaturedProject({
         ) : projectLogo ? (
           <img
             src={projectLogo}
+            width={480}
+            height={398}
             alt={arabic ? `شعار ${project.title}` : `${project.title} logo`}
             className="relative z-10 max-h-28 w-auto rounded-3xl bg-white p-5"
           />

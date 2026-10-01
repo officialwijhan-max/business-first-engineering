@@ -220,6 +220,8 @@ export function ProjectCard({
         ) : projectLogo ? (
           <img
             src={projectLogo}
+            width={480}
+            height={398}
             alt={arabic ? `شعار ${project.title}` : `${project.title} logo`}
             loading="lazy"
             className="relative z-10 size-24 rounded-2xl bg-white object-contain p-3"

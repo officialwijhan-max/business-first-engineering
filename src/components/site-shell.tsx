@@ -145,6 +145,9 @@ export function Wordmark({ light = false }: { light?: boolean }) {
         // .wordmark-logo sets the rendered height.
         width={374}
         height={99}
+        // The header wordmark is the largest thing painted above the fold, i.e. the LCP element
+        // on most pages; the footer copy (light) is not.
+        {...(light ? { loading: "lazy" as const } : { fetchPriority: "high" as const })}
         className={cn("wordmark-logo", light && "wordmark-logo--light")}
       />
     </Link>
