@@ -24,6 +24,7 @@ import {
   type ProjectDetailSolution,
 } from "@/content/project-details";
 import type { CaseStudyDetail, CaseStudyFeature, Locale } from "@/api/types";
+import { screenshotImage } from "@/lib/images";
 
 /**
  * Shared /work/:slug and /ar/work/:slug template.
@@ -614,6 +615,7 @@ function ProjectHero({
               src={heroImage}
               alt={heroImageAlt}
               priority
+              sizes="(min-width: 1024px) 256px, (min-width: 640px) 240px, 216px"
               className="relative z-10 w-[13.5rem] rotate-3 sm:w-[15rem] lg:w-[16rem]"
             />
             {logo ? (
@@ -659,6 +661,7 @@ function OverviewSection({
   coverImage: string | null;
   previewImage: string | undefined;
 }) {
+  const arabic = t === COPY.ar;
   const hasVisual = Boolean(previewImage || coverImage || logo);
 
   return (
@@ -702,6 +705,7 @@ function OverviewSection({
                 <PhoneFrame
                   src={previewImage}
                   alt={`${title} ${t.appPreview}`}
+                  sizes="(min-width: 640px) 192px, 172px"
                   className="relative z-10 mt-5 w-[10.75rem] rotate-[-5deg] sm:w-[12rem]"
                 />
               ) : coverImage ? (
@@ -711,7 +715,11 @@ function OverviewSection({
                   className="relative z-10 mt-8 aspect-[16/9] w-full rounded-xl object-cover"
                 />
               ) : logo ? (
-                <img src={logo} alt={`${title} logo`} className="relative z-10 max-h-20 w-auto" />
+                <img
+                  src={logo}
+                  alt={arabic ? `شعار ${title}` : `${title} logo`}
+                  className="relative z-10 max-h-20 w-auto"
+                />
               ) : null}
             </div>
           ) : null}
@@ -774,11 +782,14 @@ function PhoneFrame({
   src,
   alt,
   className,
+  sizes = "304px",
   priority = false,
 }: {
   src: string;
   alt: string;
   className?: string;
+  /** Rendered width hint for the srcset (matches the className widths). */
+  sizes?: string;
   /** Above-the-fold image: load eagerly instead of lazily. */
   priority?: boolean;
 }) {
@@ -791,9 +802,10 @@ function PhoneFrame({
     >
       <div className="relative aspect-[9/19.5] overflow-hidden rounded-[2.15rem] bg-black">
         <img
-          src={src}
+          {...screenshotImage(src, sizes)}
           alt={alt}
           loading={priority ? "eager" : "lazy"}
+          decoding="async"
           {...(priority ? { fetchPriority: "high" as const } : {})}
           className="size-full object-cover"
         />
@@ -974,7 +986,12 @@ function ScreenshotsSection({
           {items.map((item) => (
             <figure className="reveal" key={item.src}>
               <div className="flex justify-center rounded-3xl border border-border bg-secondary px-6 py-10 sm:px-10 sm:py-14">
-                <PhoneFrame src={item.src} alt={item.alt} className="w-full max-w-[19rem]" />
+                <PhoneFrame
+                  src={item.src}
+                  alt={item.alt}
+                  sizes="(min-width: 640px) 304px, 90vw"
+                  className="w-full max-w-[19rem]"
+                />
               </div>
               <figcaption className="mt-5 text-center text-sm italic text-muted-foreground">
                 {item.caption ?? item.alt}

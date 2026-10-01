@@ -89,22 +89,22 @@ export const projectDetailContent: Record<string, ProjectDetailContent> = {
       tagline: "One app for everything football.",
       description:
         "Egyptian Coach brings football news, talent discovery, training, academies, predictions, VAR voting, loyalty rewards and a sports marketplace together in a single, connected experience — built to give football fans and players a reason to open the app every day.",
-      logo: "/case-studies/egyptian-coach/logo.png",
+      logo: "/case-studies/egyptian-coach/logo.webp",
       gallery: [
         {
-          src: "/case-studies/egyptian-coach/home.jpeg",
+          src: "/case-studies/egyptian-coach/home.webp",
           alt: "Egyptian Coach home screen",
         },
         {
-          src: "/case-studies/egyptian-coach/leagues-and-marketplace.jpeg",
+          src: "/case-studies/egyptian-coach/leagues-and-marketplace.webp",
           alt: "Egyptian Coach leagues and marketplace screens",
         },
         {
-          src: "/case-studies/egyptian-coach/fixtures.jpeg",
+          src: "/case-studies/egyptian-coach/fixtures.webp",
           alt: "Egyptian Coach fixtures screen",
         },
         {
-          src: "/case-studies/egyptian-coach/standings.jpeg",
+          src: "/case-studies/egyptian-coach/standings.webp",
           alt: "Egyptian Coach standings screen",
         },
       ],
@@ -225,19 +225,19 @@ export const projectDetailContent: Record<string, ProjectDetailContent> = {
     ar: {
       // Only what the API's Arabic case study lacks. The wording is taken from the API's own
       // Arabic challenge / product text, split into structure.
-      logo: "/case-studies/egyptian-coach/logo.png",
+      logo: "/case-studies/egyptian-coach/logo.webp",
       gallery: [
-        { src: "/case-studies/egyptian-coach/home.jpeg", alt: "الشاشة الرئيسية في Egyptian Coach" },
+        { src: "/case-studies/egyptian-coach/home.webp", alt: "الشاشة الرئيسية في Egyptian Coach" },
         {
-          src: "/case-studies/egyptian-coach/leagues-and-marketplace.jpeg",
+          src: "/case-studies/egyptian-coach/leagues-and-marketplace.webp",
           alt: "شاشات الدوريات والمتجر في Egyptian Coach",
         },
         {
-          src: "/case-studies/egyptian-coach/fixtures.jpeg",
+          src: "/case-studies/egyptian-coach/fixtures.webp",
           alt: "شاشة المباريات في Egyptian Coach",
         },
         {
-          src: "/case-studies/egyptian-coach/standings.jpeg",
+          src: "/case-studies/egyptian-coach/standings.webp",
           alt: "شاشة الترتيب في Egyptian Coach",
         },
       ],

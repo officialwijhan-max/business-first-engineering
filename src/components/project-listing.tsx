@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { PillButton } from "@/components/ui/pill-button";
 import { getProjectDetailContent } from "@/content/project-details";
 import type { CaseStudy, Locale } from "@/api/types";
+import { screenshotImage } from "@/lib/images";
 
 /**
  * Project grouping, category filter tabs, and project card shared by /work
@@ -205,8 +206,8 @@ export function ProjectCard({
           <div className="relative z-10 h-[13rem] w-[7.25rem] rotate-[-6deg] rounded-[1.7rem] bg-[#171719] p-1 shadow-[0_22px_30px_-14px_rgba(0,0,0,.7)] ring-1 ring-white/10">
             <div className="relative size-full overflow-hidden rounded-[1.4rem] bg-black">
               <img
-                src={projectPreview}
-                alt={`${project.title} app preview`}
+                {...screenshotImage(projectPreview, "116px")}
+                alt={arabic ? `معاينة تطبيق ${project.title}` : `${project.title} app preview`}
                 loading="lazy"
                 className="size-full object-cover"
               />
@@ -219,7 +220,7 @@ export function ProjectCard({
         ) : projectLogo ? (
           <img
             src={projectLogo}
-            alt={`${project.title} logo`}
+            alt={arabic ? `شعار ${project.title}` : `${project.title} logo`}
             loading="lazy"
             className="relative z-10 size-24 rounded-2xl bg-white object-contain p-3"
           />

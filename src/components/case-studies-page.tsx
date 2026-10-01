@@ -20,6 +20,7 @@ import { workQueryOptions } from "@/hooks/use-work";
 import { locations } from "@/content/about";
 import { getProjectDetailContent } from "@/content/project-details";
 import type { CaseStudy, CaseStudyDetail, Locale, WorkData } from "@/api/types";
+import { screenshotImage } from "@/lib/images";
 
 /**
  * "Customer Outcomes" page. Every name, category, and outcome shown here comes from
@@ -396,8 +397,8 @@ function FeaturedProject({
           <div className="relative z-10 w-[11rem] rotate-[-6deg] rounded-[2.5rem] bg-[#171719] p-1.5 shadow-[0_30px_45px_-18px_rgba(0,0,0,.7)] ring-1 ring-white/10 sm:w-[12.5rem]">
             <div className="relative aspect-[9/19.5] overflow-hidden rounded-[2.1rem] bg-black">
               <img
-                src={projectPreview}
-                alt={`${project.title} app preview`}
+                {...screenshotImage(projectPreview, "(min-width: 640px) 200px, 176px")}
+                alt={arabic ? `معاينة تطبيق ${project.title}` : `${project.title} app preview`}
                 loading="lazy"
                 className="size-full object-cover"
               />
@@ -414,7 +415,7 @@ function FeaturedProject({
         ) : projectLogo ? (
           <img
             src={projectLogo}
-            alt={`${project.title} logo`}
+            alt={arabic ? `شعار ${project.title}` : `${project.title} logo`}
             className="relative z-10 max-h-28 w-auto rounded-3xl bg-white p-5"
           />
         ) : (
