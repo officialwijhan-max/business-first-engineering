@@ -21,12 +21,6 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { FloatingContactButtons, SiteFooter, SiteHeader } from "../components/site-shell";
 import { TerminalCTA } from "../components/terminal-cta";
 
-// Exported so router.tsx can also register it as `defaultNotFoundComponent` —
-// a route-level `notFoundComponent` on the root route only covers paths that
-// fail to match while resolving from the root; a path nested under a layout
-// route (e.g. /ar/<bogus>) resolves its "not found" against that layout's
-// own boundary instead, which falls back to the router's bare built-in
-// default unless `defaultNotFoundComponent` is also set.
 function apiOrigin(): string | null {
   try {
     return new URL(API_BASE_URL).origin;
@@ -40,6 +34,12 @@ function isArabicPath(pathname: string) {
   return pathname === "/ar" || pathname.startsWith("/ar/");
 }
 
+// Exported so router.tsx can also register it as `defaultNotFoundComponent` —
+// a route-level `notFoundComponent` on the root route only covers paths that
+// fail to match while resolving from the root; a path nested under a layout
+// route (e.g. /ar/<bogus>) resolves its "not found" against that layout's
+// own boundary instead, which falls back to the router's bare built-in
+// default unless `defaultNotFoundComponent` is also set.
 export function NotFoundComponent() {
   // No route matched here, so there is no head() to set page metadata —
   // React 19 hoists <title>/<meta> rendered anywhere in the tree into
