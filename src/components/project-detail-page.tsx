@@ -620,7 +620,7 @@ function ProjectHero({
               <img
                 src={logo}
                 alt=""
-                className="absolute bottom-10 start-[max(0px,calc(50%-14rem))] z-20 size-16 rounded-2xl border border-primary-foreground/15 bg-white p-2 shadow-xl"
+                className="absolute bottom-10 start-[max(0px,calc(50%-14rem))] z-20 size-16 rounded-2xl border border-primary-foreground/15 bg-white object-contain p-2 shadow-xl"
               />
             ) : null}
           </div>
@@ -694,7 +694,7 @@ function OverviewSection({
                   <img
                     src={logo}
                     alt=""
-                    className="size-11 rounded-full border border-border bg-white p-1.5 shadow-sm"
+                    className="size-11 rounded-full border border-border bg-white object-contain p-1.5 shadow-sm"
                   />
                 ) : null}
               </div>

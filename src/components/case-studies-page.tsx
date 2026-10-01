@@ -13,7 +13,7 @@ import {
   scrollToProjects,
 } from "@/components/project-listing";
 import { GetStartedSection } from "@/components/get-started-section";
-import { WorldMap } from "@/components/regional-map";
+import { LazyWorldMap } from "@/components/lazy-world-map";
 import { PillButton } from "@/components/ui/pill-button";
 import { useCaseStudy } from "@/hooks/use-case-study";
 import { workQueryOptions } from "@/hooks/use-work";
@@ -248,7 +248,11 @@ function CaseStudiesReferenceHero({
             aria-hidden="true"
           />
           <div className="absolute inset-5 overflow-hidden rounded-xl border border-primary-foreground/10 bg-primary/40 sm:inset-8">
-            <WorldMap locations={locations} arabic={arabic} projectionConfig={HERO_PROJECTION} />
+            <LazyWorldMap
+              locations={locations}
+              arabic={arabic}
+              projectionConfig={HERO_PROJECTION}
+            />
           </div>
           <div className="absolute bottom-6 start-6 z-20 rounded-full border border-hero-accent/30 bg-hero-accent/10 px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.16em] text-hero-accent shadow-sm sm:bottom-9 sm:start-9">
             {arabic ? hubsAr(locations.length) : `${locations.length} delivery hub`}
@@ -385,7 +389,7 @@ function FeaturedProject({
           <img
             src={projectLogo}
             alt=""
-            className="absolute end-7 top-7 size-12 rounded-full border border-primary-foreground/15 bg-white p-1.5 shadow-sm"
+            className="absolute end-7 top-7 size-12 rounded-full border border-primary-foreground/15 bg-white object-contain p-1.5 shadow-sm"
           />
         ) : null}
         {projectPreview ? (

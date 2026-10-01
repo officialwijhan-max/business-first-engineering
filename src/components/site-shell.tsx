@@ -141,6 +141,10 @@ export function Wordmark({ light = false }: { light?: boolean }) {
       <img
         src={wijhanLogo}
         alt={arabic ? "شعار وجهان" : "Wijhan"}
+        // Intrinsic size of the SVG (374x99): reserves the right aspect ratio before it loads;
+        // .wordmark-logo sets the rendered height.
+        width={374}
+        height={99}
         className={cn("wordmark-logo", light && "wordmark-logo--light")}
       />
     </Link>
