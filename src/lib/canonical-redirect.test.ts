@@ -42,6 +42,15 @@ describe("canonicalRedirect", () => {
     );
   });
 
+  it("redirects removed legacy URLs to their closest live page in a single hop", () => {
+    expect(canonicalRedirect(req("https://www.wijhan.com/pricing"))).toBe(
+      "https://www.wijhan.com/contact",
+    );
+    expect(canonicalRedirect(req("http://wijhan.com/ar/pricing/"))).toBe(
+      "https://www.wijhan.com/ar/contact",
+    );
+  });
+
   it("never redirects other hosts or non-GET requests", () => {
     expect(canonicalRedirect(req("http://localhost:3000/work/"))).toBe(
       "http://localhost:3000/work",

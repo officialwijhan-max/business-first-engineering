@@ -16,7 +16,7 @@ import {
 
 type Tag = Record<string, string>;
 const meta = (head: { meta: Tag[] }, key: "name" | "property", value: string) =>
-  head.meta.find((tag) => tag[key] === value)?.content;
+  head.meta.find((tag) => tag[key] === value)?.["content"];
 
 describe("URL helpers", () => {
   it("uses the https www origin with no trailing slash", () => {
@@ -48,17 +48,17 @@ describe("pageHead", () => {
   });
 
   it("emits a self-referencing absolute canonical per language", () => {
-    expect(en.links.find((l) => l.rel === "canonical")?.href).toBe(
+    expect(en.links.find((l) => l["rel"] === "canonical")?.["href"]).toBe(
       "https://www.wijhan.com/services",
     );
-    expect(ar.links.find((l) => l.rel === "canonical")?.href).toBe(
+    expect(ar.links.find((l) => l["rel"] === "canonical")?.["href"]).toBe(
       "https://www.wijhan.com/ar/services",
     );
   });
 
   it("emits the same reciprocal en/ar/x-default cluster on both language versions", () => {
     const cluster = (head: typeof en) =>
-      head.links.filter((l) => l.rel === "alternate").map((l) => [l.hrefLang, l.href]);
+      head.links.filter((l) => l["rel"] === "alternate").map((l) => [l["hrefLang"], l["href"]]);
     expect(cluster(en)).toEqual([
       ["en", "https://www.wijhan.com/services"],
       ["ar", "https://www.wijhan.com/ar/services"],
@@ -93,7 +93,7 @@ describe("pageHead", () => {
       noindex: true,
     });
     expect(meta(hidden, "name", "robots")).toBe("noindex, follow");
-    expect(hidden.links.filter((l) => l.rel === "alternate")).toHaveLength(0);
+    expect(hidden.links.filter((l) => l["rel"] === "alternate")).toHaveLength(0);
   });
 
   it("uses a real cover image for articles and drops the generic card dimensions", () => {

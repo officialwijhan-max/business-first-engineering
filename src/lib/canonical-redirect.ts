@@ -13,6 +13,16 @@
 const CANONICAL_HOST = "www.wijhan.com";
 const APEX_HOST = "wijhan.com";
 
+/**
+ * URLs that existed before and are gone (removed from git history): permanent redirects to
+ * their closest live page, so inbound links and indexed URLs keep their value instead of
+ * turning into 404s. The old /pricing page was replaced by the quote form ("Project Scoping")
+ * on the contact page.
+ */
+export const LEGACY_REDIRECTS: Readonly<Record<string, string>> = {
+  "/pricing": "/contact",
+  "/ar/pricing": "/ar/contact",
+};
 export function canonicalRedirect(request: Request): string | null {
   // Only safe, idempotent requests are redirected; never a POST (server functions, forms).
   if (request.method !== "GET" && request.method !== "HEAD") return null;
@@ -48,6 +58,12 @@ export function canonicalRedirect(request: Request): string | null {
   let pathname = url.pathname;
   if (pathname.length > 1 && pathname.endsWith("/")) {
     pathname = pathname.replace(/\/+$/, "") || "/";
+    changed = true;
+  }
+
+  const legacyTarget = LEGACY_REDIRECTS[pathname.toLowerCase()];
+  if (legacyTarget) {
+    pathname = legacyTarget;
     changed = true;
   }
 

@@ -37,7 +37,8 @@ export function buildContentSecurityPolicy(): string {
     "base-uri": "'self'",
     "form-action": "'self'",
     "object-src": "'none'",
-    "upgrade-insecure-requests": "",
+    // Browsers ignore this directive in Report-Only mode and log a console error saying so.
+    ...(CSP_ENFORCE ? { "upgrade-insecure-requests": "" } : {}),
   };
 
   return Object.entries(directives)

@@ -211,14 +211,23 @@ async function auditStatusAndRedirects() {
     if (res.status !== 301 || new URL(loc, BASE).pathname !== to)
       fail(from, "redirect.trailing-slash", `expected 301 -> ${to}, got ${res.status} ${loc}`);
   }
-  // host / scheme canonicalization, sent as if the request came through the proxy
+  // host / scheme canonicalization. Against a local build the request is sent with spoofed
+  // Host / X-Forwarded-Proto headers; against the live site the real http:// and apex URLs are used.
+  const live = new URL(BASE).host === "www.wijhan.com";
   const cases = [
     [{ host: "wijhan.com", "x-forwarded-proto": "https" }, "/about", SITE + "/about"],
     [{ host: "www.wijhan.com", "x-forwarded-proto": "http" }, "/about", SITE + "/about"],
     [{ host: "wijhan.com", "x-forwarded-proto": "http" }, "/work/", SITE + "/work"],
   ];
   for (const [headers, path, expected] of cases) {
-    const res = await rawRequest(path, headers);
+    let res;
+    if (live) {
+      const scheme = headers["x-forwarded-proto"];
+      const r = await fetch(`${scheme}://${headers.host}${path}`, { redirect: "manual" });
+      res = { status: r.status, location: r.headers.get("location") };
+    } else {
+      res = await rawRequest(path, headers);
+    }
     if (res.status !== 301 || res.location !== expected)
       fail(
         `${headers.host} ${headers["x-forwarded-proto"]} ${path}`,
@@ -226,7 +235,18 @@ async function auditStatusAndRedirects() {
         `expected single 301 -> ${expected}, got ${res.status} ${res.location}`,
       );
   }
-  const ok = await rawRequest("/about", { host: "www.wijhan.com", "x-forwarded-proto": "https" });
+  for (const [from, to] of [
+    ["/pricing", "/contact"],
+    ["/ar/pricing", "/ar/contact"],
+  ]) {
+    const res = await get(from);
+    const loc = res.headers.get("location") || "";
+    if (res.status !== 301 || new URL(loc, BASE).pathname !== to)
+      fail(from, "redirect.legacy", `expected 301 -> ${to}, got ${res.status} ${loc}`);
+  }
+  const ok = live
+    ? await get("/about")
+    : await rawRequest("/about", { host: "www.wijhan.com", "x-forwarded-proto": "https" });
   if (ok.status !== 200)
     fail(
       "www https /about",
