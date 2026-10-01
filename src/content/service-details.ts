@@ -45,6 +45,9 @@ export const serviceDetailContent: Record<string, ServiceDetailContent> = {
       heroHeadlineAccent: "Built Around Your Business.",
       heroParagraph:
         "We design, build, and scale custom software for founders and growing businesses — from internal platforms and workflow engines to customer-facing products — engineered to fit the way your business actually works.",
+      seoTitle: "Custom Software Development & Platforms | Wijhan",
+      seoDescription:
+        "Custom software, internal platforms and workflow engines for founders and growing businesses, engineered around how your business works.",
       capabilities: [
         {
           title: "Business Web Platforms",
@@ -122,6 +125,9 @@ export const serviceDetailContent: Record<string, ServiceDetailContent> = {
       heroHeadlineAccent: "مبنية حول عملك.",
       heroParagraph:
         "نصمّم ونبني ونطوّر برمجيات مخصصة للمؤسسين والشركات النامية، من المنصات الداخلية وأنظمة سير العمل إلى المنتجات الموجهة للعملاء، مهندسة لتناسب طريقة عمل شركتك فعلًا.",
+      seoTitle: "تطوير البرمجيات والمنصات المخصصة | وجهان",
+      seoDescription:
+        "برمجيات ومنصات داخلية وأنظمة سير عمل مخصصة للمؤسسين والشركات النامية، مهندسة لتناسب طريقة عمل شركتك.",
       capabilities: [
         {
           title: "منصات الويب للأعمال",

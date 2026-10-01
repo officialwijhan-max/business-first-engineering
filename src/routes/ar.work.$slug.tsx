@@ -1,54 +1,43 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArabicCaseStudyPage } from "@/components/arabic-pages";
 import { caseStudyQueryOptions } from "@/hooks/use-case-study";
-import { arabicLocaleMeta, caseStudyBreadcrumbJsonLd, languageAlternates } from "@/lib/seo";
+import { rethrowAsNotFound } from "@/lib/route-data";
+import {
+  breadcrumbJsonLd,
+  caseStudySchemaJsonLd,
+  lacksArabic,
+  ogImageFromCover,
+  pageHead,
+} from "@/lib/seo";
 
 export const Route = createFileRoute("/ar/work/$slug")({
-  loader: async ({ params, context: { queryClient } }) => {
-    // Failures (404, network, 5xx) are surfaced by the page's own
-    // not-found/DataState branches via useCaseStudy — the loader only
-    // exists to warm the cache for dynamic head() metadata.
-    return queryClient.ensureQueryData(caseStudyQueryOptions("ar", params.slug)).catch(() => null);
-  },
+  loader: ({ params, context: { queryClient } }) =>
+    queryClient.ensureQueryData(caseStudyQueryOptions("ar", params.slug)).catch(rethrowAsNotFound),
   head: ({ loaderData }) => {
-    const title = loaderData
-      ? loaderData.category
-        ? `${loaderData.title} — منصة ${loaderData.category} | وجهان`
-        : `${loaderData.title} | دراسة حالة وجهان`
-      : "دراسة حالة | وجهان";
-    const description = loaderData?.summary ?? "دراسة حالة من هندسة المنتجات لدى وجهان.";
-    const slug = loaderData?.slug ?? "";
+    if (!loaderData) return {};
+    const title = loaderData.category
+      ? `${loaderData.title} — منصة ${loaderData.category} | وجهان`
+      : `${loaderData.title} | دراسة حالة وجهان`;
+    const enPath = `/work/${loaderData.slug}`;
 
-    return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "article" },
-        { property: "og:url", content: `/ar/work/${slug}` },
-        ...(loaderData?.cover_image_url
-          ? [{ property: "og:image", content: loaderData.cover_image_url }]
-          : []),
-        { name: "twitter:card", content: "summary_large_image" },
-        ...(loaderData ? [] : [{ name: "robots", content: "noindex" }]),
-        ...arabicLocaleMeta,
+    return pageHead({
+      locale: "ar",
+      enPath,
+      title,
+      description: loaderData.summary,
+      type: "article",
+      image: ogImageFromCover(loaderData.cover_image_url),
+      publishedTime: loaderData.published_at,
+      // The API falls back to English for a missing `_ar` field; never index that as Arabic.
+      noindex: lacksArabic(loaderData.summary, loaderData.headline),
+      jsonLd: [
+        breadcrumbJsonLd("ar", [
+          { name: "أعمالنا", enPath: "/work" },
+          { name: loaderData.title, enPath },
+        ]),
+        caseStudySchemaJsonLd("ar", loaderData),
       ],
-      links: slug
-        ? [
-            { rel: "canonical", href: `/ar/work/${slug}` },
-            ...languageAlternates(`/work/${slug}`, `/ar/work/${slug}`),
-          ]
-        : [],
-      scripts: loaderData
-        ? [
-            {
-              type: "application/ld+json",
-              children: caseStudyBreadcrumbJsonLd("ar", loaderData.title, loaderData.slug),
-            },
-          ]
-        : [],
-    };
+    });
   },
   component: ArabicCaseStudyPage,
 });

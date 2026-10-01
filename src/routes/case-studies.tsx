@@ -3,16 +3,18 @@ import { CaseStudiesPage, pickFeaturedProject } from "@/components/case-studies-
 import { useCategorySearchParam } from "@/components/project-listing";
 import { caseStudyQueryOptions } from "@/hooks/use-case-study";
 import { workQueryOptions } from "@/hooks/use-work";
-import { englishLocaleMeta, languageAlternates, workItemListJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, pageHead, workItemListJsonLd } from "@/lib/seo";
 
-const title = "Customer Outcomes | Wijhan";
+const title = "Customer Outcomes & Case Studies | Wijhan";
 const description =
   "Real digital products Wijhan has designed, engineered, and shipped for founders and growing businesses.";
 
 export const Route = createFileRoute("/case-studies")({
   loader: async ({ context: { queryClient } }) => {
-    const work = await queryClient.ensureQueryData(workQueryOptions("en")).catch(() => null);
-    const featured = work ? pickFeaturedProject(work.case_studies) : null;
+    // An API failure for the list surfaces as the 500 error page; the optional featured
+    // detail only enriches the page, so its failure is tolerated.
+    const work = await queryClient.ensureQueryData(workQueryOptions("en"));
+    const featured = pickFeaturedProject(work.case_studies);
     const featuredDetail = featured
       ? await queryClient
           .ensureQueryData(caseStudyQueryOptions("en", featured.slug))
@@ -20,32 +22,17 @@ export const Route = createFileRoute("/case-studies")({
       : null;
     return { work, featuredDetail };
   },
-  head: ({ loaderData }) => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/case-studies" },
-      { name: "twitter:card", content: "summary_large_image" },
-      ...englishLocaleMeta,
-    ],
-    links: [
-      { rel: "canonical", href: "/case-studies" },
-      ...languageAlternates("/case-studies", "/ar/case-studies"),
-    ],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: workItemListJsonLd(
-          "en",
-          loaderData?.work?.case_studies ?? [],
-          "Wijhan Case Studies",
-        ),
-      },
-    ],
-  }),
+  head: ({ loaderData }) =>
+    pageHead({
+      locale: "en",
+      enPath: "/case-studies",
+      title,
+      description,
+      jsonLd: [
+        breadcrumbJsonLd("en", [{ name: "Case Studies", enPath: "/case-studies" }]),
+        workItemListJsonLd("en", loaderData?.work.case_studies ?? [], "Wijhan Case Studies"),
+      ],
+    }),
   component: CaseStudiesRoute,
 });
 

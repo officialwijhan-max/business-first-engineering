@@ -22,6 +22,7 @@ import { GetStartedSection } from "@/components/get-started-section";
 import { RegionalPresenceSection } from "@/components/regional-presence-section";
 import { ProcessPage } from "@/components/process-page";
 import { processStepsAr } from "@/lib/site-data-ar";
+import { contactFaqsAr } from "@/content/contact-faq";
 
 export function ArabicCaseStudyPage() {
   const { slug } = useParams({ from: "/ar/work/$slug" });
@@ -65,33 +66,6 @@ export function ArabicProcessPage() {
     />
   );
 }
-
-const contactFaqsAr = [
-  {
-    question: "خلال كم من الوقت ستردّون علينا؟",
-    answer: "خلال يوم عمل واحد. وغالبًا سيتواصل معك فريقنا في اليوم نفسه.",
-  },
-  {
-    question: "كم تستغرق المشاريع عادةً؟",
-    answer:
-      "يعتمد ذلك على النطاق — فالمنتج المركّز يستغرق عادةً من 8 إلى 16 أسبوعًا، أما مشاريع الـERP أو المنصات الأكبر فنحدد مدتها بعد مرحلة الاكتشاف.",
-  },
-  {
-    question: "هل تقدّمون مرحلة اكتشاف أو تجربة أولية قبل المشروع الكامل؟",
-    answer:
-      "نعم. للمشكلات الجديدة أو غير الواضحة نوصي غالبًا بمرحلة اكتشاف قصيرة للتأكد من صحة الحل قبل الالتزام بالتنفيذ الكامل.",
-  },
-  {
-    question: "كيف تحدّدون الأسعار؟",
-    answer:
-      "تُسعَّر المشاريع محددة النطاق بعد مرحلة الاكتشاف، أما الدعم الهندسي المستمر فيكون باشتراك شهري. شاركنا نطاق مشروعك في النموذج أدناه وسنرسل إليك النطاق السعري المناسب.",
-  },
-  {
-    question: "هل يمكنكم الربط مع أنظمتنا الحالية؟",
-    answer:
-      "نعم. نربط بانتظام مع الأنظمة القائمة عبر واجهات REST API وتسجيل الدخول الموحد (SAML/OAuth) وموصّلات مخصصة ضمن نطاق العمل الهندسي.",
-  },
-];
 
 export function ArabicContactPage() {
   return (

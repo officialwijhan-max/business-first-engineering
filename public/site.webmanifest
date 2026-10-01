@@ -1,0 +1,14 @@
+{
+  "name": "Wijhan | وجهان",
+  "short_name": "Wijhan",
+  "description": "Wijhan is a product engineering company that builds digital products for businesses in the Middle East and worldwide.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#F8F5EE",
+  "theme_color": "#0F1B2E",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

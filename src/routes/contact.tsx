@@ -9,57 +9,22 @@ import {
 } from "@/components/ui/accordion";
 import { GetStartedSection } from "@/components/get-started-section";
 import { RegionalPresenceSection } from "@/components/regional-presence-section";
-import { englishLocaleMeta, languageAlternates } from "@/lib/seo";
-
-const contactFaqs = [
-  {
-    question: "How quickly will I hear back?",
-    answer:
-      "We respond to all enquiries within one business day. Urgent requests are prioritized same-day.",
-  },
-  {
-    question: "What is the typical project timeline?",
-    answer:
-      "A focused product build usually runs 8–16 weeks. Larger ERP or platform work is scoped after a discovery phase, once we understand the full picture.",
-  },
-  {
-    question: "Do you offer a discovery or pilot phase?",
-    answer:
-      "Yes. For new or ambiguous problems, we recommend a short, fixed-price discovery sprint to validate the approach before committing to full delivery.",
-  },
-  {
-    question: "What pricing models are available?",
-    answer:
-      "Fixed-scope pricing for defined projects, and a monthly retainer for ongoing engineering support. Share your scope in the form below and we'll quote the range that fits.",
-  },
-  {
-    question: "Can you integrate with our existing systems?",
-    answer:
-      "Yes. We regularly integrate with existing systems via REST APIs, SSO (SAML/OAuth) and custom connectors as part of the engineering scope.",
-  },
-];
+import { contactFaqsEn } from "@/content/contact-faq";
+import { breadcrumbJsonLd, faqJsonLd, pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Start a Project | Contact Wijhan" },
-      {
-        name: "description",
-        content:
-          "Tell Wijhan what you are trying to build, improve or solve. Start a product engineering conversation.",
-      },
-      { property: "og:title", content: "Start a Project | Contact Wijhan" },
-      { property: "og:description", content: "Let’s understand the problem first." },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/contact" },
-      { name: "twitter:card", content: "summary_large_image" },
-      ...englishLocaleMeta,
-    ],
-    links: [
-      { rel: "canonical", href: "/contact" },
-      ...languageAlternates("/contact", "/ar/contact"),
-    ],
-  }),
+  head: () =>
+    pageHead({
+      locale: "en",
+      enPath: "/contact",
+      title: "Start a Project | Contact Wijhan",
+      description:
+        "Tell Wijhan what you are trying to build, improve or solve. Start a product engineering conversation.",
+      jsonLd: [
+        breadcrumbJsonLd("en", [{ name: "Contact", enPath: "/contact" }]),
+        faqJsonLd("en", contactFaqsEn),
+      ],
+    }),
   component: ContactPage,
 });
 
@@ -128,7 +93,7 @@ function ContactPage() {
             </a>
           </div>
           <Accordion type="single" collapsible className="flex flex-col gap-4">
-            {contactFaqs.map((item) => (
+            {contactFaqsEn.map((item) => (
               <AccordionItem
                 key={item.question}
                 value={item.question}

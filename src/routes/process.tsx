@@ -1,32 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ProcessPage } from "@/components/process-page";
 import { processSteps } from "@/lib/site-data";
-import { englishLocaleMeta, languageAlternates } from "@/lib/seo";
+import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/process")({
-  head: () => ({
-    meta: [
-      { title: "Our Product Engineering Process | Wijhan" },
-      {
-        name: "description",
-        content:
-          "How Wijhan understands, defines, designs, engineers, validates and improves digital products.",
-      },
-      { property: "og:title", content: "Our Product Engineering Process | Wijhan" },
-      {
-        property: "og:description",
-        content: "Understand first. Build second. Improve continuously.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/process" },
-      { name: "twitter:card", content: "summary_large_image" },
-      ...englishLocaleMeta,
-    ],
-    links: [
-      { rel: "canonical", href: "/process" },
-      ...languageAlternates("/process", "/ar/process"),
-    ],
-  }),
+  head: () =>
+    pageHead({
+      locale: "en",
+      enPath: "/process",
+      title: "Our Product Engineering Process | Wijhan",
+      description:
+        "How Wijhan understands, defines, designs, engineers, validates and improves digital products.",
+      jsonLd: [breadcrumbJsonLd("en", [{ name: "Our Process", enPath: "/process" }])],
+    }),
   component: ProcessRoute,
 });
 

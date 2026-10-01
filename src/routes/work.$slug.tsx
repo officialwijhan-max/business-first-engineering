@@ -1,54 +1,36 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ProjectDetailPage } from "@/components/project-detail-page";
 import { caseStudyQueryOptions } from "@/hooks/use-case-study";
-import { caseStudyBreadcrumbJsonLd, englishLocaleMeta, languageAlternates } from "@/lib/seo";
+import { rethrowAsNotFound } from "@/lib/route-data";
+import { breadcrumbJsonLd, caseStudySchemaJsonLd, ogImageFromCover, pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/work/$slug")({
-  loader: async ({ params, context: { queryClient } }) => {
-    // Failures (404, network, 5xx) are surfaced by the page's own
-    // not-found/DataState branches via useCaseStudy — the loader only
-    // exists to warm the cache for dynamic head() metadata.
-    return queryClient.ensureQueryData(caseStudyQueryOptions("en", params.slug)).catch(() => null);
-  },
+  // API 404 → real HTTP 404; any other failure → HTTP 500 (see lib/route-data.ts).
+  loader: ({ params, context: { queryClient } }) =>
+    queryClient.ensureQueryData(caseStudyQueryOptions("en", params.slug)).catch(rethrowAsNotFound),
   head: ({ loaderData }) => {
-    const title = loaderData
-      ? loaderData.category
-        ? `${loaderData.title} — ${loaderData.category} Platform | Wijhan`
-        : `${loaderData.title} | Wijhan Case Study`
-      : "Case Study | Wijhan";
-    const description = loaderData?.summary ?? "A Wijhan product engineering case study.";
-    const slug = loaderData?.slug ?? "";
+    if (!loaderData) return {};
+    const title = loaderData.category
+      ? `${loaderData.title} — ${loaderData.category} Platform | Wijhan`
+      : `${loaderData.title} | Wijhan Case Study`;
+    const enPath = `/work/${loaderData.slug}`;
 
-    return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "article" },
-        { property: "og:url", content: `/work/${slug}` },
-        ...(loaderData?.cover_image_url
-          ? [{ property: "og:image", content: loaderData.cover_image_url }]
-          : []),
-        { name: "twitter:card", content: "summary_large_image" },
-        ...(loaderData ? [] : [{ name: "robots", content: "noindex" }]),
-        ...englishLocaleMeta,
+    return pageHead({
+      locale: "en",
+      enPath,
+      title,
+      description: loaderData.summary,
+      type: "article",
+      image: ogImageFromCover(loaderData.cover_image_url),
+      publishedTime: loaderData.published_at,
+      jsonLd: [
+        breadcrumbJsonLd("en", [
+          { name: "Selected Work", enPath: "/work" },
+          { name: loaderData.title, enPath },
+        ]),
+        caseStudySchemaJsonLd("en", loaderData),
       ],
-      links: slug
-        ? [
-            { rel: "canonical", href: `/work/${slug}` },
-            ...languageAlternates(`/work/${slug}`, `/ar/work/${slug}`),
-          ]
-        : [],
-      scripts: loaderData
-        ? [
-            {
-              type: "application/ld+json",
-              children: caseStudyBreadcrumbJsonLd("en", loaderData.title, loaderData.slug),
-            },
-          ]
-        : [],
-    };
+    });
   },
   component: CaseStudyDetailPage,
 });

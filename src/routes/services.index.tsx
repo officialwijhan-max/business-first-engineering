@@ -1,39 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ServicesPage } from "@/components/services-page";
 import { servicesQueryOptions } from "@/hooks/use-services";
-import type { Service } from "@/api/types";
-import { englishLocaleMeta, languageAlternates, servicesItemListJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, pageHead, servicesItemListJsonLd } from "@/lib/seo";
+
+const title = "Product Engineering Services | Wijhan";
+const description =
+  "Custom software, mobile apps, portals & websites, UI/UX design, system integration, and ERP solutions, built around your business.";
 
 export const Route = createFileRoute("/services/")({
-  loader: async ({ context: { queryClient } }) =>
-    queryClient.ensureQueryData(servicesQueryOptions("en")).catch((): Service[] => []),
-  head: ({ loaderData }) => ({
-    meta: [
-      { title: "Services | Wijhan" },
-      {
-        name: "description",
-        content:
-          "Custom software, mobile apps, portals & websites, UI/UX design, system integration, and ERP solutions, built around your business.",
-      },
-      { property: "og:title", content: "Services | Wijhan" },
-      {
-        property: "og:description",
-        content:
-          "Custom software, mobile apps, portals & websites, UI/UX design, system integration, and ERP solutions, built around your business.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/services" },
-      { name: "twitter:card", content: "summary_large_image" },
-      ...englishLocaleMeta,
-    ],
-    links: [
-      { rel: "canonical", href: "/services" },
-      ...languageAlternates("/services", "/ar/services"),
-    ],
-    scripts: [
-      { type: "application/ld+json", children: servicesItemListJsonLd("en", loaderData ?? []) },
-    ],
-  }),
+  // An API failure surfaces as the 500 error page, not as a 200 page with an empty list.
+  loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(servicesQueryOptions("en")),
+  head: ({ loaderData }) =>
+    pageHead({
+      locale: "en",
+      enPath: "/services",
+      title,
+      description,
+      jsonLd: [
+        breadcrumbJsonLd("en", [{ name: "Services", enPath: "/services" }]),
+        servicesItemListJsonLd("en", loaderData ?? []),
+      ],
+    }),
   component: ServicesRoute,
 });
 

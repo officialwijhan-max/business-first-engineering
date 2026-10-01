@@ -3,15 +3,16 @@ import { CaseStudiesPage, pickFeaturedProject } from "@/components/case-studies-
 import { useCategorySearchParam } from "@/components/project-listing";
 import { caseStudyQueryOptions } from "@/hooks/use-case-study";
 import { workQueryOptions } from "@/hooks/use-work";
-import { arabicLocaleMeta, languageAlternates, workItemListJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, pageHead, workItemListJsonLd } from "@/lib/seo";
 
-const title = "نتائج عملائنا | وجهان";
-const description = "منتجات رقمية حقيقية صمّمتها وجهان وبنتها وأطلقتها للمؤسسين والشركات النامية.";
+const title = "نتائج عملائنا ودراسات الحالة | وجهان";
+const description =
+  "منتجات رقمية حقيقية صمّمتها وجهان وبنتها وأطلقتها للمؤسسين والشركات النامية في الشرق الأوسط والعالم.";
 
 export const Route = createFileRoute("/ar/case-studies")({
   loader: async ({ context: { queryClient } }) => {
-    const work = await queryClient.ensureQueryData(workQueryOptions("ar")).catch(() => null);
-    const featured = work ? pickFeaturedProject(work.case_studies) : null;
+    const work = await queryClient.ensureQueryData(workQueryOptions("ar"));
+    const featured = pickFeaturedProject(work.case_studies);
     const featuredDetail = featured
       ? await queryClient
           .ensureQueryData(caseStudyQueryOptions("ar", featured.slug))
@@ -19,32 +20,17 @@ export const Route = createFileRoute("/ar/case-studies")({
       : null;
     return { work, featuredDetail };
   },
-  head: ({ loaderData }) => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/ar/case-studies" },
-      { name: "twitter:card", content: "summary_large_image" },
-      ...arabicLocaleMeta,
-    ],
-    links: [
-      { rel: "canonical", href: "/ar/case-studies" },
-      ...languageAlternates("/case-studies", "/ar/case-studies"),
-    ],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: workItemListJsonLd(
-          "ar",
-          loaderData?.work?.case_studies ?? [],
-          "دراسات حالة وجهان",
-        ),
-      },
-    ],
-  }),
+  head: ({ loaderData }) =>
+    pageHead({
+      locale: "ar",
+      enPath: "/case-studies",
+      title,
+      description,
+      jsonLd: [
+        breadcrumbJsonLd("ar", [{ name: "دراسات الحالة", enPath: "/case-studies" }]),
+        workItemListJsonLd("ar", loaderData?.work.case_studies ?? [], "دراسات حالة وجهان"),
+      ],
+    }),
   component: ArabicCaseStudiesRoute,
 });
 
