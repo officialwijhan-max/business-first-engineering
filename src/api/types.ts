@@ -127,8 +127,9 @@ export interface QuoteRequestPayload {
   company?: string | undefined;
   email: string;
   phone?: string | undefined;
+  /** A service slug, a stable extra such as "not-sure", or a legacy display label. */
   project_type: string;
-  budget_range: string;
+  budget_range?: string | undefined;
   description: string;
   locale: Locale;
 }

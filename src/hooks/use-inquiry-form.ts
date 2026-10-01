@@ -1,19 +1,24 @@
 import { useRef, useState, type FormEvent } from "react";
-import { submitContact } from "@/api/contact";
+import { submitInquiry } from "@/api/inquiry";
 import type { Locale } from "@/api/types";
 import { runSubmission } from "@/lib/form-submit";
 import { isHoneypotTripped, validateFields } from "@/lib/form-guards";
+import { buildInquiryRequest, toFormFieldErrors } from "@/lib/inquiry-request";
 
 type Status = "idle" | "submitting" | "success";
 
 /**
- * Shared submit behavior for the Contact form (English and Arabic pages
+ * Shared submit behavior for the "Get Started" forms (English and Arabic pages
  * render their own JSX/labels, both call this for the actual API logic —
  * keeps the request/validation/error handling in one place). Reads fields
  * straight off the native <form> via FormData, matching the existing
  * uncontrolled-input markup so no input needs to become controlled.
+ *
+ * The form's hidden `subject` decides the endpoint: Project Scoping is posted
+ * to /quote-requests, every other inquiry type to /contact (see
+ * src/lib/inquiry-request.ts).
  */
-export function useContactForm(locale: Locale) {
+export function useInquiryForm(locale: Locale) {
   const [status, setStatus] = useState<Status>("idle");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [generalError, setGeneralError] = useState<string | null>(null);
@@ -44,9 +49,9 @@ export function useContactForm(locale: Locale) {
       return typeof value === "string" && value.trim() !== "" ? value : undefined;
     };
 
-    const message = [messagePrefix, String(form.get("description") ?? "")]
-      .filter((part): part is string => typeof part === "string" && part.trim() !== "")
-      .join("\n\n");
+    const request = buildInquiryRequest(form, locale, messagePrefix);
+    const message =
+      request.kind === "quote" ? request.payload.description : request.payload.message;
 
     const clientErrors = validateFields(locale, {
       name: String(form.get("name") ?? ""),
@@ -69,26 +74,14 @@ export function useContactForm(locale: Locale) {
 
     setStatus("submitting");
 
-    const outcome = await runSubmission(locale, () =>
-      submitContact({
-        name: String(form.get("name") ?? ""),
-        company: optional("company"),
-        email: String(form.get("email") ?? ""),
-        phone: optional("phone"),
-        subject: optional("subject"),
-        project_type: optional("projectType"),
-        budget_range: optional("budget"),
-        message,
-        locale,
-      }),
-    );
+    const outcome = await runSubmission(locale, () => submitInquiry(request));
 
     if (outcome.kind === "success") {
       setStatus("success");
       return;
     }
 
-    setFieldErrors(outcome.fieldErrors);
+    setFieldErrors(toFormFieldErrors(request.kind, outcome.fieldErrors));
     setGeneralError(outcome.generalError);
     setStatus("idle");
     submittingRef.current = false;

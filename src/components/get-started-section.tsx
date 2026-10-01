@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PillButton } from "@/components/ui/pill-button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useContactForm } from "@/hooks/use-contact-form";
+import { useInquiryForm } from "@/hooks/use-inquiry-form";
 import { useRestoreFormDraft } from "@/hooks/use-form-draft";
 import { HoneypotField } from "@/components/ui/honeypot-field";
 import { cn } from "@/lib/utils";
@@ -145,7 +145,7 @@ function DefaultGetStarted({
 }) {
   const arabic = locale === "ar";
   const { submitted, submitting, fieldErrors, generalError, submit, reset } =
-    useContactForm(locale);
+    useInquiryForm(locale);
   const inquiryTypes = arabic ? inquiryTypesAr : inquiryTypesEn;
   const [inquiryType, setInquiryType] = useState<InquiryTypeId>(defaultTab);
   const { data: services } = useServices(locale);
@@ -364,7 +364,7 @@ function ScopingGetStarted({ locale }: { locale: Locale }) {
   const arabic = locale === "ar";
   const { data: services } = useServices(locale);
   const { submitted, submitting, fieldErrors, generalError, submit, reset } =
-    useContactForm(locale);
+    useInquiryForm(locale);
   const [step, setStep] = useState<1 | 2>(1);
   const formRef = useRef<HTMLFormElement>(null);
   useRestoreFormDraft(formRef, services);
