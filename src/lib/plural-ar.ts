@@ -19,4 +19,9 @@ export const projectsAr = (n: number) =>
 export const servicesAr = (n: number) =>
   arabicCount(n, { one: "خدمة واحدة", two: "خدمتان", few: "خدمات", many: "خدمة" });
 export const hubsAr = (n: number) =>
-  arabicCount(n, { one: "مركز تسليم واحد", two: "مركزا تسليم", few: "مراكز تسليم", many: "مركز تسليم" });
+  arabicCount(n, {
+    one: "مركز تسليم واحد",
+    two: "مركزا تسليم",
+    few: "مراكز تسليم",
+    many: "مركز تسليم",
+  });

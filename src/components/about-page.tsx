@@ -133,7 +133,9 @@ function HeroSection({ arabic, serviceCount }: { arabic: boolean; serviceCount: 
               <GlanceRow
                 label={arabic ? "اللغات" : "Languages"}
                 value={
-                  arabic ? "العربية والإنجليزية مع دعم أصيل للكتابة من اليمين إلى اليسار" : "Arabic & English, RTL-native"
+                  arabic
+                    ? "العربية والإنجليزية مع دعم أصيل للكتابة من اليمين إلى اليسار"
+                    : "Arabic & English, RTL-native"
                 }
               />
               {foundedYear ? (

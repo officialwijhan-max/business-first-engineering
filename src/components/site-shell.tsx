@@ -330,7 +330,10 @@ export function SiteHeader() {
         </div>
       </div>
       {open ? (
-        <nav id="mobile-menu" className="mobile-menu lg:hidden" aria-label={arabic ? "قائمة الجوال" : "Mobile navigation"}
+        <nav
+          id="mobile-menu"
+          className="mobile-menu lg:hidden"
+          aria-label={arabic ? "قائمة الجوال" : "Mobile navigation"}
         >
           <div className="site-container flex flex-col py-6 sm:py-8">
             {[

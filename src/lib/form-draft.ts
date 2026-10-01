@@ -37,7 +37,9 @@ export function saveFormDraft(): void {
 }
 
 function radioIndex(form: HTMLFormElement, el: HTMLInputElement): number {
-  return [...form.querySelectorAll<HTMLInputElement>(`input[type=radio][name="${el.name}"]`)].indexOf(el);
+  return [
+    ...form.querySelectorAll<HTMLInputElement>(`input[type=radio][name="${el.name}"]`),
+  ].indexOf(el);
 }
 
 function setNativeValue(el: HTMLInputElement | HTMLTextAreaElement, value: string) {

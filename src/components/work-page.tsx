@@ -215,9 +215,7 @@ export function WorkPage({ locale, activeCategory, onCategoryChange }: WorkPageP
             isEmpty={!servicesLoading && !servicesError && (services?.length ?? 0) === 0}
             loadingLabel={arabic ? "جارٍ تحميل القدرات…" : "Loading capabilities…"}
             errorLabel={
-              arabic
-                ? "تعذّر تحميل القدرات حالًا."
-                : "We couldn't load our capabilities right now."
+              arabic ? "تعذّر تحميل القدرات حالًا." : "We couldn't load our capabilities right now."
             }
             emptyLabel={arabic ? "لا توجد قدرات منشورة بعد." : "No capabilities are published yet."}
           />

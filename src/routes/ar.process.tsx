@@ -13,7 +13,8 @@ export const Route = createFileRoute("/ar/process")({
       },
       {
         name: "keywords",
-        content: "منهجية تطوير المنتجات، مراحل تطوير البرمجيات، Agile، Scrum، إدارة المشاريع التقنية، هندسة المنتجات",
+        content:
+          "منهجية تطوير المنتجات، مراحل تطوير البرمجيات، Agile، Scrum، إدارة المشاريع التقنية، هندسة المنتجات",
       },
       { property: "og:title", content: "منهجية العمل في تطوير المنتجات الرقمية | وجهان" },
       { property: "og:description", content: "نفهم أوًا، ثم نبني، ونطوّر باستمرار." },
@@ -22,8 +23,16 @@ export const Route = createFileRoute("/ar/process")({
       { name: "twitter:card", content: "summary_large_image" },
       ...arabicLocaleMeta,
     ],
-    links: [{ rel: "canonical", href: "/ar/process" }, ...languageAlternates("/process", "/ar/process")],
-    scripts: [{ type: "application/ld+json", children: arabicBreadcrumbJsonLd("منهجية العمل", "/ar/process") }],
+    links: [
+      { rel: "canonical", href: "/ar/process" },
+      ...languageAlternates("/process", "/ar/process"),
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: arabicBreadcrumbJsonLd("منهجية العمل", "/ar/process"),
+      },
+    ],
   }),
   component: ArabicProcessPage,
 });

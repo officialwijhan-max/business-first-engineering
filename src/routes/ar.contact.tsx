@@ -22,8 +22,16 @@ export const Route = createFileRoute("/ar/contact")({
       { name: "twitter:card", content: "summary_large_image" },
       ...arabicLocaleMeta,
     ],
-    links: [{ rel: "canonical", href: "/ar/contact" }, ...languageAlternates("/contact", "/ar/contact")],
-    scripts: [{ type: "application/ld+json", children: arabicBreadcrumbJsonLd("تواصل معنا", "/ar/contact") }],
+    links: [
+      { rel: "canonical", href: "/ar/contact" },
+      ...languageAlternates("/contact", "/ar/contact"),
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: arabicBreadcrumbJsonLd("تواصل معنا", "/ar/contact"),
+      },
+    ],
   }),
   component: ArabicContactPage,
 });

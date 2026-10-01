@@ -158,24 +158,24 @@ export function WorldMap({
           arabic ? "خريطة تظهر مواقع مكاتب وجهان" : "Map showing Wijhan's office locations"
         }
       >
-      <Geographies geography={WORLD_TOPOJSON_URL}>
-        {({ geographies }) =>
-          geographies.map((geo) => (
-            <Geography
-              key={geo.rsmKey}
-              geography={geo}
-              fill="color-mix(in oklab, var(--color-primary) 84%, white)"
-              stroke="color-mix(in oklab, var(--color-primary) 74%, white)"
-              strokeWidth={0.6}
-              style={{ outline: "none" }}
-            />
-          ))
-        }
-      </Geographies>
+        <Geographies geography={WORLD_TOPOJSON_URL}>
+          {({ geographies }) =>
+            geographies.map((geo) => (
+              <Geography
+                key={geo.rsmKey}
+                geography={geo}
+                fill="color-mix(in oklab, var(--color-primary) 84%, white)"
+                stroke="color-mix(in oklab, var(--color-primary) 74%, white)"
+                strokeWidth={0.6}
+                style={{ outline: "none" }}
+              />
+            ))
+          }
+        </Geographies>
 
-      {pinned.map((location, index) => (
-        <LocationMarker key={locationKey(location, index)} location={location} arabic={arabic} />
-      ))}
+        {pinned.map((location, index) => (
+          <LocationMarker key={locationKey(location, index)} location={location} arabic={arabic} />
+        ))}
       </ComposableMap>
     </div>
   );
