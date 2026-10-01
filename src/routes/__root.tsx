@@ -11,6 +11,12 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import dmSansLatinUrl from "../assets/fonts/dm-sans-latin.woff2?url";
+import plexArabic400Url from "../assets/fonts/ibm-plex-sans-arabic-400.woff2?url";
+import plexArabic700Url from "../assets/fonts/ibm-plex-sans-arabic-700.woff2?url";
+import { API_BASE_URL } from "../api/config";
+import { servicesQueryOptions } from "../hooks/use-services";
+import { workQueryOptions } from "../hooks/use-work";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { FloatingContactButtons, SiteFooter, SiteHeader } from "../components/site-shell";
 import { TerminalCTA } from "../components/terminal-cta";
@@ -21,6 +27,19 @@ import { TerminalCTA } from "../components/terminal-cta";
 // route (e.g. /ar/<bogus>) resolves its "not found" against that layout's
 // own boundary instead, which falls back to the router's bare built-in
 // default unless `defaultNotFoundComponent` is also set.
+function apiOrigin(): string | null {
+  try {
+    return new URL(API_BASE_URL).origin;
+  } catch {
+    return null;
+  }
+}
+const API_ORIGIN = apiOrigin();
+
+function isArabicPath(pathname: string) {
+  return pathname === "/ar" || pathname.startsWith("/ar/");
+}
+
 export function NotFoundComponent() {
   // No route matched here, so there is no head() to set page metadata —
   // React 19 hoists <title>/<meta> rendered anywhere in the tree into
@@ -78,6 +97,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
       dir={arabic ? "rtl" : undefined}
       lang={arabic ? "ar" : undefined}
     >
+      <title>{arabic ? "تعذّر تحميل الصفحة | وجهان" : "Something went wrong | Wijhan"}</title>
+      <meta name="robots" content="noindex" />
       <div className="max-w-md text-center">
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
           {arabic ? "تعذّر تحميل هذه الصفحة" : "This page didn't load"}
@@ -117,34 +138,49 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       // home indicator; styles.css then pads the header, gutters, floating buttons,
       // and footer with env(safe-area-inset-*) so nothing is hidden behind them.
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { name: "theme-color", content: "#0F1B2E" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.png", type: "image/png" },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "icon", href: "/favicon.png", type: "image/png", sizes: "64x64" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+      { rel: "manifest", href: "/site.webmanifest" },
+      // Self-hosted brand font, needed by every page's first paint (Arabic faces are
+      // preloaded per-page in RootShell). crossOrigin is mandatory for font preloads, even
+      // same-origin, or the browser fetches the file twice.
       {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap",
+        rel: "preload",
+        href: dmSansLatinUrl,
+        as: "font",
+        type: "font/woff2",
+        crossOrigin: "anonymous",
       },
+      // The API origin is contacted on every page (shell nav data, forms); warm it up early.
+      ...(API_ORIGIN
+        ? [{ rel: "preconnect", href: API_ORIGIN, crossOrigin: "anonymous" as const }]
+        : []),
     ],
   }),
+  // Header/footer render API-backed service and work links on every page, so warm that data
+  // in SSR for the active language: the links are then in the HTML crawlers receive. A failure
+  // here must never break a page (static pages stay fully usable), hence the swallowed errors.
+  loader: async ({ context: { queryClient }, location }) => {
+    const locale = isArabicPath(location.pathname) ? "ar" : "en";
+    await Promise.all([
+      queryClient.ensureQueryData(servicesQueryOptions(locale)).catch(() => null),
+      queryClient.ensureQueryData(workQueryOptions(locale)).catch(() => null),
+    ]);
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
 
-// Google Fonts CSS is split by unicode-range, so the Arabic face is only downloaded once
-// Arabic glyphs are actually rendered. It is added on /ar pages only (English pages
-// are unchanged). display=swap: text is shown immediately in the fallback, then swaps.
-const ARABIC_FONT_CSS =
-  "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap";
+const ARABIC_FONT_PRELOADS = [plexArabic400Url, plexArabic700Url];
 
 function RootShell({ children }: { children: ReactNode }) {
   // The server-rendered <html> must already carry lang/dir for Arabic URLs: the effect in
@@ -157,7 +193,19 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang={arabic ? "ar" : "en"} dir={arabic ? "rtl" : undefined}>
       <head>
         <HeadContent />
-        {arabic ? <link rel="stylesheet" href={ARABIC_FONT_CSS} /> : null}
+        {/* IBM Plex Sans Arabic is only needed (and only preloaded) on /ar pages. */}
+        {arabic
+          ? ARABIC_FONT_PRELOADS.map((href) => (
+              <link
+                key={href}
+                rel="preload"
+                href={href}
+                as="font"
+                type="font/woff2"
+                crossOrigin="anonymous"
+              />
+            ))
+          : null}
       </head>
       <body>
         {children}

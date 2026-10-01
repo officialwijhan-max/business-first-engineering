@@ -26,9 +26,10 @@ export function buildContentSecurityPolicy(): string {
     // TanStack Start streams inline bootstrap/hydration scripts, so 'unsafe-inline'
     // is required until a per-request nonce is wired through the router.
     "script-src": "'self' 'unsafe-inline'",
-    // Inline style attributes are used in components; Google Fonts serves the CSS.
-    "style-src": "'self' 'unsafe-inline' https://fonts.googleapis.com",
-    "font-src": "'self' https://fonts.gstatic.com data:",
+    // Inline style attributes are used in components. Fonts are self-hosted (src/assets/fonts),
+    // so no third-party style or font origin is needed.
+    "style-src": "'self' 'unsafe-inline'",
+    "font-src": "'self' data:",
     // API-supplied case-study images can live on the API/CDN host, hence https:.
     "img-src": "'self' data: https:",
     "connect-src": connect,
