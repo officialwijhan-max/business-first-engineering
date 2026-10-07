@@ -1,0 +1,15 @@
+node_modules
+.output
+.tanstack
+.nitro
+.wrangler
+.git
+.claude
+.lovable
+.env
+.env.*
+!.env.example
+docs
+*.log
+Dockerfile
+.dockerignore
