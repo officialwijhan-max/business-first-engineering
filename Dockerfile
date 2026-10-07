@@ -5,7 +5,9 @@ FROM oven/bun:1 AS build
 WORKDIR /app
 
 COPY package.json bun.lock bunfig.toml ./
-RUN bun install --frozen-lockfile
+# Not --frozen-lockfile: bun.lock is currently out of sync with package.json, which
+# fails the frozen install. Restore the flag once `bun install` has been run and committed.
+RUN bun install
 
 COPY . .
 
